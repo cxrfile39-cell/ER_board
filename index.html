@@ -22,6 +22,7 @@ header{background:var(--card);border-bottom:1px solid var(--line);padding:18px 2
 header h1{margin:0;font-size:1.35rem}
 header h1 span{color:var(--accent)}
 header p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+header .credit{font-size:.8rem}
 .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:20px;padding:20px}
 @media (max-width:860px){.wrap{grid-template-columns:1fr;padding:12px}}
 aside{align-self:start;position:sticky;top:12px}
@@ -73,6 +74,7 @@ footer a{color:var(--muted)}
 <header>
   <h1><span>EM</span> Weekly｜急診醫學每週文獻</h1>
   <p id="sub">每週一自動更新 · 來源：PubMed</p>
+  <p class="credit">製作者：JH CHIU MD · Claude 5.5</p>
 </header>
 
 <div class="wrap">
@@ -120,7 +122,8 @@ footer a{color:var(--muted)}
 
 <footer>
   資料來源：<a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">PubMed / NCBI</a>。
-  分類由關鍵字自動判定，僅供文獻追蹤參考。
+  分類由關鍵字自動判定，僅供文獻追蹤參考。<br>
+  製作者：<b>JH CHIU MD</b> · Claude 5.5
 </footer>
 
 <script>
@@ -267,7 +270,7 @@ async function init(){
 
   if (!index || !index.weeks?.length){
     $("#status").textContent = "";
-    $("#list").innerHTML = `<div class="empty">尚無資料。<br>請到 GitHub repo 的 Actions 分頁手動執行一次「Weekly update &amp; deploy」。</div>`;
+    $("#list").innerHTML = `<div class="empty">尚無資料。<br>首次抓取約需 3–5 分鐘，請稍後重新整理。<br>若超過 10 分鐘仍無資料，請確認 repo 內有 <code>.github/workflows/weekly.yml</code>，並查看 Actions 分頁是否有錯誤。</div>`;
     return;
   }
   $("#sub").textContent = `每週一自動更新 · 最後更新：${index.updated.replace("T"," ").slice(0,16)} · 來源：PubMed`;
