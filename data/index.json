@@ -1,5 +1,75 @@
 {
- "updated": "",
- "categories": [],
- "weeks": []
+ "updated": "2026-11-20T14:41:23+08:00",
+ "categories": [
+  {
+   "id": "general",
+   "name": "General Emergency Medicine",
+   "zh": "一般急診醫學"
+  },
+  {
+   "id": "critical",
+   "name": "Emergency Critical Care",
+   "zh": "急診重症"
+  },
+  {
+   "id": "pediatric",
+   "name": "Pediatric Emergency Medicine",
+   "zh": "兒童急診"
+  },
+  {
+   "id": "ems",
+   "name": "Emergency Medical Services (EMS)",
+   "zh": "到院前緊急醫療"
+  },
+  {
+   "id": "toxicology",
+   "name": "Medical Toxicology",
+   "zh": "臨床毒物"
+  },
+  {
+   "id": "ultrasound",
+   "name": "Emergency Ultrasound",
+   "zh": "急診超音波"
+  },
+  {
+   "id": "disaster",
+   "name": "Disaster Medicine",
+   "zh": "災難醫學"
+  },
+  {
+   "id": "hyperbaric",
+   "name": "Hyperbaric and Undersea Medicine",
+   "zh": "高壓氧與潛水醫學"
+  },
+  {
+   "id": "sports",
+   "name": "Sports Medicine",
+   "zh": "運動醫學"
+  },
+  {
+   "id": "geriatric",
+   "name": "Geriatric Emergency Medicine",
+   "zh": "老人急診"
+  },
+  {
+   "id": "neurology",
+   "name": "Emergency Neurology",
+   "zh": "急診神經學"
+  },
+  {
+   "id": "trauma",
+   "name": "Emergency Trauma Medicine",
+   "zh": "急診外傷"
+  }
+ ],
+ "weeks": [
+  {
+   "week": "2026-11-16",
+   "range": [
+    "2026-11-13",
+    "2026-11-19"
+   ],
+   "count": 500
+  }
+ ]
 }
