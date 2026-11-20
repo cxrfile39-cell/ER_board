@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EM Weekly｜急診醫學每週文獻</title>
+<meta name="description" content="每週一自動更新：急診醫學 12 個次專科最新 Journal Article / Review / Guideline">
+<style>
+:root{
+  --bg:#f6f7f9;--card:#fff;--ink:#1c2430;--muted:#5f6b7a;--line:#e3e7ec;
+  --accent:#c62828;--accent-soft:#fdecea;--chip:#eef1f5;
+  --article:#1565c0;--review:#6a1b9a;--guideline:#2e7d32;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#12161c;--card:#1b2129;--ink:#e6e9ee;--muted:#9aa5b3;--line:#2b333d;
+  --accent:#ef5350;--accent-soft:#3a1f1f;--chip:#262e38;
+  --article:#64b5f6;--review:#ce93d8;--guideline:#81c784;
+}}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:18px 20px}
+header h1{margin:0;font-size:1.35rem}
+header h1 span{color:var(--accent)}
+header p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+.wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:20px;padding:20px}
+@media (max-width:860px){.wrap{grid-template-columns:1fr;padding:12px}}
+aside{align-self:start;position:sticky;top:12px}
+@media (max-width:860px){aside{position:static}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+.panel h2{font-size:.95rem;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center}
+.btns{display:flex;gap:6px;margin-bottom:8px}
+.btns button,.toggle-filters{flex:1;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:6px;padding:6px 8px;font-size:.85rem;cursor:pointer}
+.btns button:hover{border-color:var(--accent)}
+label.opt{display:flex;align-items:flex-start;gap:8px;padding:4px 2px;font-size:.9rem;cursor:pointer;border-radius:4px}
+label.opt:hover{background:var(--chip)}
+label.opt input{margin-top:4px;accent-color:var(--accent)}
+label.opt .n{margin-left:auto;color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums}
+label.opt small{display:block;color:var(--muted);font-size:.78rem}
+select,input[type=search]{width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font-size:.9rem}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.toolbar input[type=search]{flex:1;min-width:200px}
+.toolbar select{width:auto}
+.status{color:var(--muted);font-size:.88rem;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.card h3{margin:6px 0 4px;font-size:1rem;line-height:1.4}
+.card h3 a{color:var(--ink);text-decoration:none}
+.card h3 a:hover{color:var(--accent);text-decoration:underline}
+.meta{color:var(--muted);font-size:.84rem}
+.meta b{color:var(--ink);font-weight:600}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.02em;color:#fff}
+.badge.article{background:var(--article)}.badge.review{background:var(--review)}.badge.guideline{background:var(--guideline)}
+@media (prefers-color-scheme:dark){.badge{color:#12161c}}
+.chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+.chip{background:var(--chip);color:var(--muted);font-size:.74rem;padding:2px 8px;border-radius:999px}
+.links{margin-top:8px;display:flex;flex-wrap:wrap;gap:12px;font-size:.84rem}
+.links a{color:var(--accent);text-decoration:none}
+.links a:hover{text-decoration:underline}
+details{margin-top:8px}
+details summary{cursor:pointer;color:var(--muted);font-size:.84rem}
+details .abs{font-size:.88rem;margin-top:6px}
+details .abs p{margin:0 0 6px}
+.empty{text-align:center;color:var(--muted);padding:40px 10px}
+.more{display:block;margin:10px auto;padding:10px 20px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;cursor:pointer}
+.more[hidden]{display:none}
+mark{background:#ffe082;color:inherit;padding:0 1px}
+.toggle-filters{display:none;width:100%;margin-bottom:10px;padding:10px}
+@media (max-width:860px){.toggle-filters{display:block}aside.collapsed .panel{display:none}}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:20px}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1><span>EM</span> Weekly｜急診醫學每週文獻</h1>
+  <p id="sub">每週一自動更新 · 來源：PubMed</p>
+</header>
+
+<div class="wrap">
+  <aside id="aside">
+    <button class="toggle-filters" id="toggleFilters">篩選條件 ▾</button>
+
+    <div class="panel">
+      <h2>週次</h2>
+      <select id="week"></select>
+    </div>
+
+    <div class="panel">
+      <h2>文章類型</h2>
+      <div class="btns">
+        <button data-all="type">全選</button>
+        <button data-none="type">全不選</button>
+      </div>
+      <div id="types"></div>
+    </div>
+
+    <div class="panel">
+      <h2>次專科</h2>
+      <div class="btns">
+        <button data-all="cat">全選</button>
+        <button data-none="cat">全不選</button>
+      </div>
+      <div id="cats"></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="搜尋標題、摘要、期刊、作者…">
+      <select id="sort">
+        <option value="date">日期（新→舊）</option>
+        <option value="journal">期刊名稱</option>
+        <option value="type">類型（指引→綜論→原著）</option>
+      </select>
+    </div>
+    <div class="status" id="status">載入中…</div>
+    <div id="list"></div>
+    <button class="more" id="more" hidden>顯示更多</button>
+  </main>
+</div>
+
+<footer>
+  資料來源：<a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">PubMed / NCBI</a>。
+  分類由關鍵字自動判定，僅供文獻追蹤參考。
+</footer>
+
+<script>
+const TYPES = [
+  {id:"article",   name:"Journal Article", zh:"原著"},
+  {id:"review",    name:"Review",          zh:"綜論 / 系統性回顧"},
+  {id:"guideline", name:"Guideline",       zh:"指引 / 共識"},
+];
+const TYPE_ORDER = {guideline:0, review:1, article:2};
+const PAGE = 50;
+const STORE = "emweekly-filters-v1";
+
+const $ = s => document.querySelector(s);
+const state = {cats:[], weekData:null, shown:PAGE};
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch(e) {}
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function buildOptions(container, items, group, counts){
+  const prev = saved[group];
+  container.innerHTML = items.map(it => `
+    <label class="opt">
+      <input type="checkbox" data-group="${group}" value="${it.id}"
+        ${!prev || prev.includes(it.id) ? "checked" : ""}>
+      <span>${esc(it.name)}<small>${esc(it.zh)}</small></span>
+      <span class="n" data-count="${group}:${it.id}">${counts?.[it.id] ?? ""}</span>
+    </label>`).join("");
+}
+
+function checked(group){
+  return [...document.querySelectorAll(`input[data-group="${group}"]:checked`)].map(i => i.value);
+}
+
+function persist(){
+  try {
+    localStorage.setItem(STORE, JSON.stringify({type:checked("type"), cat:checked("cat"), sort:$("#sort").value}));
+  } catch(e) {}
+}
+
+function updateCounts(){
+  const arts = state.weekData?.articles || [];
+  const types = new Set(checked("type")), cats = new Set(checked("cat"));
+  const c = {};
+  for (const a of arts){
+    c["type:"+a.type] = (c["type:"+a.type]||0) + (a.cats.some(x=>cats.has(x)) ? 1 : 0);
+    if (types.has(a.type)) for (const k of a.cats) c["cat:"+k] = (c["cat:"+k]||0) + 1;
+  }
+  document.querySelectorAll("[data-count]").forEach(el => el.textContent = c[el.dataset.count] || 0);
+}
+
+function highlight(text, terms){
+  let h = esc(text);
+  for (const t of terms){
+    if (t.length < 2) continue;
+    const re = new RegExp("(" + esc(t).replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
+    h = h.replace(re, "<mark>$1</mark>");
+  }
+  return h;
+}
+
+function render(resetPage = true){
+  if (resetPage) state.shown = PAGE;
+  persist(); updateCounts();
+  const list = $("#list"), status = $("#status");
+  const arts = state.weekData?.articles || [];
+  const types = new Set(checked("type")), cats = new Set(checked("cat"));
+  const terms = $("#q").value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const catName = Object.fromEntries(state.cats.map(c => [c.id, c.name]));
+
+  let rows = arts.filter(a => types.has(a.type) && a.cats.some(c => cats.has(c)));
+  if (terms.length){
+    rows = rows.filter(a => {
+      const hay = [a.title, a.journal, a.journal_full, a.authors.join(" "),
+                   a.abstract.map(p => p.text).join(" ")].join(" ").toLowerCase();
+      return terms.every(t => hay.includes(t));
+    });
+  }
+  const sort = $("#sort").value;
+  rows.sort((x,y) =>
+    sort === "journal" ? x.journal.localeCompare(y.journal) || y.date.localeCompare(x.date) :
+    sort === "type" ? TYPE_ORDER[x.type] - TYPE_ORDER[y.type] || y.date.localeCompare(x.date) :
+    y.date.localeCompare(x.date));
+
+  const w = state.weekData;
+  status.textContent = w
+    ? `${w.range[0]} ～ ${w.range[1]} 收錄 · 顯示 ${rows.length} / ${arts.length} 篇`
+    : "";
+
+  if (!rows.length){
+    list.innerHTML = `<div class="empty">${
+      !cats.size ? "請至少選擇一個次專科" : !types.size ? "請至少選擇一種文章類型" : "沒有符合條件的文章"}</div>`;
+    $("#more").hidden = true;
+    return;
+  }
+
+  list.innerHTML = rows.slice(0, state.shown).map(a => {
+    const t = TYPES.find(t => t.id === a.type);
+    const au = a.authors.length > 6 ? a.authors.slice(0,6).join(", ") + ", et al." : a.authors.join(", ");
+    const abs = a.abstract.length
+      ? `<details><summary>摘要</summary><div class="abs">${a.abstract.map(p =>
+          `<p>${p.label ? `<b>${esc(p.label)}：</b>` : ""}${highlight(p.text, terms)}</p>`).join("")}</div></details>`
+      : "";
+    return `<article class="card">
+      <span class="badge ${a.type}">${t.name}</span>
+      <h3><a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">${highlight(a.title, terms)}</a></h3>
+      <div class="meta"><b>${esc(a.journal)}</b> · ${esc(a.date)}${au ? " · " + esc(au) : ""}</div>
+      <div class="chips">${a.cats.map(c => `<span class="chip">${esc(catName[c] || c)}</span>`).join("")}</div>
+      <div class="links">
+        <a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">PubMed</a>
+        ${a.doi ? `<a href="https://doi.org/${esc(a.doi)}" target="_blank" rel="noopener">全文 (DOI)</a>` : ""}
+        ${a.pmc ? `<a href="https://pmc.ncbi.nlm.nih.gov/articles/${esc(a.pmc)}/" target="_blank" rel="noopener">PMC 免費全文</a>` : ""}
+      </div>
+      ${abs}
+    </article>`;
+  }).join("");
+  $("#more").hidden = rows.length <= state.shown;
+}
+
+async function loadWeek(week){
+  $("#status").textContent = "載入中…";
+  try {
+    const r = await fetch(`data/weeks/${week}.json`, {cache:"no-cache"});
+    state.weekData = await r.json();
+  } catch(e){
+    state.weekData = null;
+    $("#list").innerHTML = `<div class="empty">無法載入 ${esc(week)} 的資料</div>`;
+    return;
+  }
+  render();
+}
+
+async function init(){
+  let index;
+  try {
+    const r = await fetch("data/index.json", {cache:"no-cache"});
+    index = await r.json();
+  } catch(e){ index = null; }
+
+  state.cats = index?.categories || [];
+  buildOptions($("#types"), TYPES, "type");
+  buildOptions($("#cats"), state.cats, "cat");
+  if (saved.sort) $("#sort").value = saved.sort;
+
+  if (!index || !index.weeks?.length){
+    $("#status").textContent = "";
+    $("#list").innerHTML = `<div class="empty">尚無資料。<br>請到 GitHub repo 的 Actions 分頁手動執行一次「Weekly update &amp; deploy」。</div>`;
+    return;
+  }
+  $("#sub").textContent = `每週一自動更新 · 最後更新：${index.updated.replace("T"," ").slice(0,16)} · 來源：PubMed`;
+  $("#week").innerHTML = index.weeks.map(w =>
+    `<option value="${esc(w.week)}">${esc(w.week)} 週（${w.count} 篇）</option>`).join("");
+  const fromHash = decodeURIComponent(location.hash.slice(1));
+  if (index.weeks.some(w => w.week === fromHash)) $("#week").value = fromHash;
+  await loadWeek($("#week").value);
+}
+
+// 事件
+document.addEventListener("change", e => {
+  if (e.target.matches("input[data-group]")) render();
+});
+document.querySelectorAll("[data-all],[data-none]").forEach(b => b.addEventListener("click", () => {
+  const g = b.dataset.all || b.dataset.none, on = !!b.dataset.all;
+  document.querySelectorAll(`input[data-group="${g}"]`).forEach(i => i.checked = on);
+  render();
+}));
+$("#week").addEventListener("change", e => { location.hash = e.target.value; loadWeek(e.target.value); });
+$("#sort").addEventListener("change", () => render());
+let qTimer; $("#q").addEventListener("input", () => { clearTimeout(qTimer); qTimer = setTimeout(render, 200); });
+$("#more").addEventListener("click", () => { state.shown += PAGE; render(false); });
+$("#toggleFilters").addEventListener("click", () => {
+  const a = $("#aside"); a.classList.toggle("collapsed");
+  $("#toggleFilters").textContent = a.classList.contains("collapsed") ? "篩選條件 ▸" : "篩選條件 ▾";
+});
+if (matchMedia("(max-width:860px)").matches){ $("#aside").classList.add("collapsed"); $("#toggleFilters").textContent = "篩選條件 ▸"; }
+
+init();
+</script>
+</body>
+</html>
