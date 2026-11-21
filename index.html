@@ -5,31 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EM Weekly｜急診醫學每週文獻</title>
 <meta name="description" content="每週一自動更新：急診醫學 12 個次專科最新 Journal Article / Review / Guideline">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1218'/%3E%3Cpath d='M2 17h7l2-4 3 11 4-18 3 11h9' fill='none' stroke='%2333ff88' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
 :root{
   --bg:#f6f7f9;--card:#fff;--ink:#1c2430;--muted:#5f6b7a;--line:#e3e7ec;
   --accent:#c62828;--accent-soft:#fdecea;--chip:#eef1f5;
-  --article:#1565c0;--review:#6a1b9a;--guideline:#2e7d32;
+  --article:#1e88e5;--review:#f9a825;--guideline:#d32f2f;
+  --mon-bg:#0b1218;--mon-green:#33ff88;--mon-yellow:#ffd54f;--mon-cyan:#4dd0e1;--mon-red:#ff5252;
 }
 @media (prefers-color-scheme:dark){:root{
   --bg:#12161c;--card:#1b2129;--ink:#e6e9ee;--muted:#9aa5b3;--line:#2b333d;
   --accent:#ef5350;--accent-soft:#3a1f1f;--chip:#262e38;
-  --article:#64b5f6;--review:#ce93d8;--guideline:#81c784;
+  --article:#64b5f6;--review:#ffd54f;--guideline:#ff6b6b;
 }}
 *{box-sizing:border-box}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
-header{background:var(--card);border-bottom:1px solid var(--line);padding:18px 20px}
-header h1{margin:0;font-size:1.35rem}
-header h1 span{color:var(--accent)}
-header p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
-header .credit{font-size:.8rem}
-header .updated{display:inline-block;margin-top:8px;padding:4px 10px;border-radius:6px;background:var(--accent-soft);color:var(--ink);font-size:.85rem}
+header{position:relative;background:radial-gradient(ellipse at 20% 0%,#16303a 0%,var(--mon-bg) 60%);color:#e8f5ee;overflow:hidden}
+.hdr{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:18px 20px 10px}
+.brand{display:flex;align-items:center;gap:12px}
+.siren{width:14px;height:14px;border-radius:50%;background:var(--mon-red);box-shadow:0 0 0 0 rgba(255,82,82,.7);animation:siren 1.2s infinite;flex:none}
+@keyframes siren{0%{box-shadow:0 0 0 0 rgba(255,82,82,.75)}50%{background:#ff8a80}70%{box-shadow:0 0 0 12px rgba(255,82,82,0)}100%{box-shadow:0 0 0 0 rgba(255,82,82,0)}}
+header h1{margin:0;font-size:1.4rem;letter-spacing:.01em}
+header h1 .em{color:var(--mon-red);font-weight:900}
+header p{margin:4px 0 0;color:#9fb8ad;font-size:.88rem}
+header .credit{font-size:.78rem;color:#7d958b}
+header .updated{display:inline-block;margin-top:8px;padding:4px 10px;border-radius:6px;background:rgba(51,255,136,.08);border:1px solid rgba(51,255,136,.35);color:#cfffe3;font-size:.84rem;font-family:ui-monospace,Menlo,Consolas,"Noto Sans TC",monospace}
+header .updated b{color:var(--mon-green)}
+.ecg{display:block;width:100%;height:56px;position:relative;z-index:1}
+.ecg path{fill:none;stroke:var(--mon-green);stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 0 3px rgba(51,255,136,.8))}
+.ecg .grid{stroke:rgba(51,255,136,.08);stroke-width:1;filter:none}
+.chevron{height:10px;background:repeating-linear-gradient(-45deg,#d32f2f 0 14px,#fff 14px 28px)}
+.triage{display:flex;height:4px}.triage i{flex:1}
+.triage i:nth-child(1){background:#d32f2f}.triage i:nth-child(2){background:#f9a825}.triage i:nth-child(3){background:#43a047}.triage i:nth-child(4){background:#1e88e5}.triage i:nth-child(5){background:#212121}
+.monitor{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;background:var(--mon-bg);border-radius:10px;padding:10px;border:1px solid #1f2d36}
+.vital{font-family:ui-monospace,Menlo,Consolas,monospace;padding:4px 8px;border-left:3px solid currentColor}
+.vital .lbl{font-size:.68rem;letter-spacing:.08em;opacity:.85}
+.vital .val{font-size:1.6rem;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.vital.total{color:var(--mon-green)}.vital.g{color:var(--mon-red)}.vital.r{color:var(--mon-yellow)}.vital.a{color:var(--mon-cyan)}
+@media (max-width:520px){.monitor{grid-template-columns:repeat(2,1fr)}.vital .val{font-size:1.3rem}}
+@media (max-width:520px){header h1{font-size:1.1rem}header .updated .sep{display:none}header .updated .nx{display:block}}
+.ico{font-size:1rem;width:1.3em;text-align:center;flex:none;margin-top:1px}
 .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:20px;padding:20px}
 @media (max-width:860px){.wrap{grid-template-columns:1fr;padding:12px}}
 aside{align-self:start;position:sticky;top:12px}
 @media (max-width:860px){aside{position:static}}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
-.panel h2{font-size:.95rem;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center}
+.panel h2{font-size:.95rem;border-bottom:2px solid var(--accent);padding-bottom:6px;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center}
 .btns{display:flex;gap:6px;margin-bottom:8px}
 .btns button,.toggle-filters{flex:1;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:6px;padding:6px 8px;font-size:.85rem;cursor:pointer}
 .btns button:hover{border-color:var(--accent)}
@@ -43,13 +64,15 @@ select,input[type=search]{width:100%;padding:8px;border:1px solid var(--line);bo
 .toolbar input[type=search]{flex:1;min-width:200px}
 .toolbar select{width:auto}
 .status{color:var(--muted);font-size:.88rem;margin-bottom:10px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--article);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.card.review{border-left-color:var(--review)}.card.guideline{border-left-color:var(--guideline)}
 .card h3{margin:6px 0 4px;font-size:1rem;line-height:1.4}
 .card h3 a{color:var(--ink);text-decoration:none}
 .card h3 a:hover{color:var(--accent);text-decoration:underline}
 .meta{color:var(--muted);font-size:.84rem}
 .meta b{color:var(--ink);font-weight:600}
-.badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.02em;color:#fff}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.04em;color:#fff;text-transform:uppercase}
+.badge.review{color:#1c1c1c}
 .badge.article{background:var(--article)}.badge.review{background:var(--review)}.badge.guideline{background:var(--guideline)}
 @media (prefers-color-scheme:dark){.badge{color:#12161c}}
 .chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
@@ -73,10 +96,16 @@ footer a{color:var(--muted)}
 </head>
 <body>
 <header>
-  <h1><span>EM</span> Weekly｜急診醫學每週文獻</h1>
-  <p id="sub">每週一自動更新 · 來源：PubMed</p>
-  <p class="updated">🕒 上次更新：<b id="updated">—</b>　｜　下次更新：<span id="next">—</span></p>
-  <p class="credit">製作者：JH CHIU MD · Claude 5.5</p>
+  <div class="hdr">
+    <div class="brand"><span class="siren" aria-hidden="true"></span>
+      <h1><span class="em">EM</span> Weekly｜急診醫學每週文獻</h1></div>
+    <p id="sub">🚑 每週一自動更新 · 來源：PubMed</p>
+    <p class="updated">🕒 上次更新：<b id="updated">—</b><span class="sep">　｜　</span><span class="nx">⏭ 下次更新：<span id="next">—</span></span></p>
+    <p class="credit">製作者：JH CHIU MD · Claude 5.5</p>
+  </div>
+  <svg class="ecg" id="ecg" viewBox="0 0 1200 56" preserveAspectRatio="none" aria-hidden="true"></svg>
+  <div class="chevron" aria-hidden="true"></div>
+  <div class="triage" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 </header>
 
 <div class="wrap">
@@ -116,6 +145,12 @@ footer a{color:var(--muted)}
         <option value="type">類型（指引→綜論→原著）</option>
       </select>
     </div>
+    <div class="monitor" aria-label="本週篇數">
+      <div class="vital total"><div class="lbl">TOTAL 顯示</div><div class="val" id="vTotal">--</div></div>
+      <div class="vital g"><div class="lbl">GUIDELINE 指引</div><div class="val" id="vG">--</div></div>
+      <div class="vital r"><div class="lbl">REVIEW 綜論</div><div class="val" id="vR">--</div></div>
+      <div class="vital a"><div class="lbl">ARTICLE 原著</div><div class="val" id="vA">--</div></div>
+    </div>
     <div class="status" id="status">載入中…</div>
     <div id="list"></div>
     <button class="more" id="more" hidden>顯示更多</button>
@@ -134,6 +169,9 @@ const TYPES = [
   {id:"review",    name:"Review",          zh:"綜論 / 系統性回顧"},
   {id:"guideline", name:"Guideline",       zh:"指引 / 共識"},
 ];
+const ICON = {general:"🏥",critical:"🫀",pediatric:"🧸",ems:"🚑",toxicology:"☠️",ultrasound:"📡",
+  disaster:"🌪️",hyperbaric:"🤿",sports:"🏃",geriatric:"👵",neurology:"🧠",trauma:"🩸",
+  article:"📄",review:"📚",guideline:"📋"};
 const TYPE_ORDER = {guideline:0, review:1, article:2};
 const PAGE = 50;
 const STORE = "emweekly-filters-v1";
@@ -151,6 +189,7 @@ function buildOptions(container, items, group, counts){
     <label class="opt">
       <input type="checkbox" data-group="${group}" value="${it.id}"
         ${!prev || prev.includes(it.id) ? "checked" : ""}>
+      <span class="ico">${ICON[it.id] || ""}</span>
       <span>${esc(it.name)}<small>${esc(it.zh)}</small></span>
       <span class="n" data-count="${group}:${it.id}">${counts?.[it.id] ?? ""}</span>
     </label>`).join("");
@@ -210,6 +249,9 @@ function render(resetPage = true){
     sort === "type" ? TYPE_ORDER[x.type] - TYPE_ORDER[y.type] || y.date.localeCompare(x.date) :
     y.date.localeCompare(x.date));
 
+  const tc = {article:0, review:0, guideline:0}; rows.forEach(a => tc[a.type]++);
+  $("#vTotal").textContent = rows.length; $("#vG").textContent = tc.guideline;
+  $("#vR").textContent = tc.review; $("#vA").textContent = tc.article;
   const w = state.weekData;
   status.textContent = w
     ? `${w.range[0]} ～ ${w.range[1]} 收錄 · 顯示 ${rows.length} / ${arts.length} 篇`
@@ -229,11 +271,11 @@ function render(resetPage = true){
       ? `<details><summary>摘要</summary><div class="abs">${a.abstract.map(p =>
           `<p>${p.label ? `<b>${esc(p.label)}：</b>` : ""}${highlight(p.text, terms)}</p>`).join("")}</div></details>`
       : "";
-    return `<article class="card">
+    return `<article class="card ${a.type}">
       <span class="badge ${a.type}">${t.name}</span>
       <h3><a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">${highlight(a.title, terms)}</a></h3>
       <div class="meta"><b>${esc(a.journal)}</b> · ${esc(a.date)}${au ? " · " + esc(au) : ""}</div>
-      <div class="chips">${a.cats.map(c => `<span class="chip">${esc(catName[c] || c)}</span>`).join("")}</div>
+      <div class="chips">${a.cats.map(c => `<span class="chip">${ICON[c] || ""} ${esc(catName[c] || c)}</span>`).join("")}</div>
       <div class="links">
         <a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">PubMed</a>
         ${a.doi ? `<a href="https://doi.org/${esc(a.doi)}" target="_blank" rel="noopener">全文 (DOI)</a>` : ""}
@@ -276,7 +318,24 @@ function showUpdateTimes(updated){
   $("#next").textContent = fmtTaipei(n);
 }
 
+function drawECG(){
+  const svg = $("#ecg"), W = 1200, base = 32;
+  const beat = x => `L${x} ${base} L${x+12} ${base-5} L${x+22} ${base} L${x+34} ${base} L${x+38} ${base+5} L${x+45} 4 L${x+52} ${base+18} L${x+57} ${base} L${x+75} ${base} L${x+92} ${base-8} L${x+110} ${base}`;
+  let d = `M0 ${base}`;
+  for (let x = 30; x < W; x += 170) d += " " + beat(x);
+  d += ` L${W} ${base}`;
+  let grid = "";
+  for (let x = 0; x <= W; x += 40) grid += `<line class="grid" x1="${x}" y1="0" x2="${x}" y2="56"/>`;
+  svg.innerHTML = `<g>${grid}</g><path d="${d}"/>`;
+  svg.querySelectorAll("line").forEach(l => l.setAttribute("stroke","rgba(51,255,136,.08)"));
+  const path = svg.querySelector("path"), len = path.getTotalLength();
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  path.style.strokeDasharray = `${len*0.35} ${len*0.65}`;
+  path.animate([{strokeDashoffset: len}, {strokeDashoffset: 0}], {duration: 6000, iterations: Infinity});
+}
+
 async function init(){
+  drawECG();
   let index;
   try {
     const r = await fetch("data/index.json", {cache:"no-cache"});
@@ -300,6 +359,7 @@ async function init(){
   if (index.weeks.some(w => w.week === fromHash)) $("#week").value = fromHash;
   await loadWeek($("#week").value);
 }
+
 
 // 事件
 document.addEventListener("change", e => {
