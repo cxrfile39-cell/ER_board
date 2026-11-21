@@ -23,6 +23,7 @@ header h1{margin:0;font-size:1.35rem}
 header h1 span{color:var(--accent)}
 header p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
 header .credit{font-size:.8rem}
+header .updated{display:inline-block;margin-top:8px;padding:4px 10px;border-radius:6px;background:var(--accent-soft);color:var(--ink);font-size:.85rem}
 .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:20px;padding:20px}
 @media (max-width:860px){.wrap{grid-template-columns:1fr;padding:12px}}
 aside{align-self:start;position:sticky;top:12px}
@@ -74,6 +75,7 @@ footer a{color:var(--muted)}
 <header>
   <h1><span>EM</span> Weekly｜急診醫學每週文獻</h1>
   <p id="sub">每週一自動更新 · 來源：PubMed</p>
+  <p class="updated">🕒 上次更新：<b id="updated">—</b>　｜　下次更新：<span id="next">—</span></p>
   <p class="credit">製作者：JH CHIU MD · Claude 5.5</p>
 </header>
 
@@ -256,6 +258,24 @@ async function loadWeek(week){
   render();
 }
 
+// 以台北時間 (UTC+8) 顯示
+const WD = ["日","一","二","三","四","五","六"];
+function fmtTaipei(d){
+  const t = new Date(d.getTime() + 8*3600e3);
+  const p = n => String(n).padStart(2,"0");
+  return `${t.getUTCFullYear()}-${p(t.getUTCMonth()+1)}-${p(t.getUTCDate())}（${WD[t.getUTCDay()]}）${p(t.getUTCHours())}:${p(t.getUTCMinutes())}`;
+}
+function showUpdateTimes(updated){
+  const last = updated ? new Date(updated) : null;
+  $("#updated").textContent = last && !isNaN(last) ? fmtTaipei(last) + " 台北時間" : "尚未更新";
+  // 下一個週一 06:00 台北時間 = 週日 22:00 UTC
+  const now = new Date(), n = new Date(now);
+  n.setUTCHours(22,0,0,0);
+  n.setUTCDate(n.getUTCDate() + ((7 - n.getUTCDay()) % 7));
+  if (n <= now) n.setUTCDate(n.getUTCDate() + 7);
+  $("#next").textContent = fmtTaipei(n);
+}
+
 async function init(){
   let index;
   try {
@@ -267,13 +287,13 @@ async function init(){
   buildOptions($("#types"), TYPES, "type");
   buildOptions($("#cats"), state.cats, "cat");
   if (saved.sort) $("#sort").value = saved.sort;
+  showUpdateTimes(index?.updated);
 
   if (!index || !index.weeks?.length){
     $("#status").textContent = "";
     $("#list").innerHTML = `<div class="empty">尚無資料。<br>首次抓取約需 3–5 分鐘，請稍後重新整理。<br>若超過 10 分鐘仍無資料，請確認 repo 內有 <code>.github/workflows/weekly.yml</code>，並查看 Actions 分頁是否有錯誤。</div>`;
     return;
   }
-  $("#sub").textContent = `每週一自動更新 · 最後更新：${index.updated.replace("T"," ").slice(0,16)} · 來源：PubMed`;
   $("#week").innerHTML = index.weeks.map(w =>
     `<option value="${esc(w.week)}">${esc(w.week)} 週（${w.count} 篇）</option>`).join("");
   const fromHash = decodeURIComponent(location.hash.slice(1));
