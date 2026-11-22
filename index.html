@@ -202,7 +202,7 @@ footer a{color:var(--muted)}
 
     <h3>1. 資料來源與時間範圍</h3>
     <ul>
-      <li>來源：<b>PubMed</b>（NCBI E-utilities），每週一 06:00（台北時間）自動執行。</li>
+      <li>來源：<b>PubMed</b>（NCBI E-utilities），每週一 05:37（台北時間）自動執行。</li>
       <li>收錄範圍：執行日前 7 天（上週一至週日）<b>新收錄進 PubMed</b> 的文章（以 Entrez date 為準，不是出版日期），因此線上搶先版（Epub ahead of print）也會收錄。</li>
       <li>排除：Letter、Editorial、Comment、News、Interview、Biography、Congress、Preprint、勘誤（Erratum／Correction）、撤稿（Retraction）、Expression of concern、作者回覆（Reply）。</li>
     </ul>
@@ -427,10 +427,10 @@ function fmtTaipei(d){
 function showUpdateTimes(updated){
   const last = updated ? new Date(updated) : null;
   $("#updated").textContent = last && !isNaN(last) ? fmtTaipei(last) + " 台北時間" : "尚未更新";
-  // 排程：每週一 06:00 台北時間 = 週日 22:00 UTC
+  // 排程：每週一 05:37 台北時間 = 週日 21:37 UTC（需與 weekly.yml 的 cron 一致）
   const now = new Date();
   const due = new Date(now);                       // 最近一次「已到期」的排程時間
-  due.setUTCHours(22,0,0,0);
+  due.setUTCHours(21,37,0,0);
   due.setUTCDate(due.getUTCDate() - due.getUTCDay());
   if (due > now) due.setUTCDate(due.getUTCDate() - 7);
   const next = new Date(due.getTime() + 7*864e5);
