@@ -10,13 +10,13 @@
 :root{
   --bg:#f6f7f9;--card:#fff;--ink:#1c2430;--muted:#5f6b7a;--line:#e3e7ec;
   --accent:#c62828;--accent-soft:#fdecea;--chip:#eef1f5;
-  --article:#1e88e5;--review:#f9a825;--guideline:#d32f2f;
+  --article:#1e88e5;--review:#f9a825;--meta:#8e24aa;--guideline:#d32f2f;
   --mon-bg:#0b1218;--mon-green:#33ff88;--mon-yellow:#ffd54f;--mon-cyan:#4dd0e1;--mon-red:#ff5252;
 }
 @media (prefers-color-scheme:dark){:root{
   --bg:#12161c;--card:#1b2129;--ink:#e6e9ee;--muted:#9aa5b3;--line:#2b333d;
   --accent:#ef5350;--accent-soft:#3a1f1f;--chip:#262e38;
-  --article:#64b5f6;--review:#ffd54f;--guideline:#ff6b6b;
+  --article:#64b5f6;--review:#ffd54f;--meta:#ce93d8;--guideline:#ff6b6b;
 }}
 *{box-sizing:border-box}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
@@ -37,12 +37,14 @@ header .updated b{color:var(--mon-green)}
 .chevron{height:10px;background:repeating-linear-gradient(-45deg,#d32f2f 0 14px,#fff 14px 28px)}
 .triage{display:flex;height:4px}.triage i{flex:1}
 .triage i:nth-child(1){background:#d32f2f}.triage i:nth-child(2){background:#f9a825}.triage i:nth-child(3){background:#43a047}.triage i:nth-child(4){background:#1e88e5}.triage i:nth-child(5){background:#212121}
-.monitor{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;background:var(--mon-bg);border-radius:10px;padding:10px;border:1px solid #1f2d36}
+.monitor{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px;background:var(--mon-bg);border-radius:10px;padding:10px;border:1px solid #1f2d36}
 .vital{font-family:ui-monospace,Menlo,Consolas,monospace;padding:4px 8px;border-left:3px solid currentColor}
 .vital .lbl{font-size:.68rem;letter-spacing:.08em;opacity:.85}
 .vital .val{font-size:1.6rem;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
-.vital.total{color:var(--mon-green)}.vital.g{color:var(--mon-red)}.vital.r{color:var(--mon-yellow)}.vital.a{color:var(--mon-cyan)}
-@media (max-width:520px){.monitor{grid-template-columns:repeat(2,1fr)}.vital .val{font-size:1.3rem}}
+.vital.total{color:var(--mon-green)}.vital.guideline{color:var(--mon-red)}.vital.review{color:var(--mon-yellow)}.vital.article{color:var(--mon-cyan)}.vital.meta{color:#ea80fc}
+.vital .lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:620px){.monitor{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:520px){.vital .val{font-size:1.3rem}}
 @media (max-width:520px){header h1{font-size:1.1rem}header .updated .sep{display:none}header .updated .nx{display:block}}
 .ico{font-size:1rem;width:1.3em;text-align:center;flex:none;margin-top:1px}
 .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:20px;padding:20px}
@@ -65,14 +67,14 @@ select,input[type=search]{width:100%;padding:8px;border:1px solid var(--line);bo
 .toolbar select{width:auto}
 .status{color:var(--muted);font-size:.88rem;margin-bottom:10px}
 .card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--article);border-radius:10px;padding:14px 16px;margin-bottom:10px}
-.card.review{border-left-color:var(--review)}.card.guideline{border-left-color:var(--guideline)}
+.card.review{border-left-color:var(--review)}.card.meta{border-left-color:var(--meta)}.card.guideline{border-left-color:var(--guideline)}
 .card h3{margin:6px 0 4px;font-size:1rem;line-height:1.4}
 .card h3 a{color:var(--ink);text-decoration:none}
 .card h3 a:hover{color:var(--accent);text-decoration:underline}
 .meta{color:var(--muted);font-size:.84rem}
 .meta b{color:var(--ink);font-weight:600}
 .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.04em;color:#fff;text-transform:uppercase}
-.badge.review{color:#1c1c1c}
+.badge.review{color:#1c1c1c}.badge.meta{background:var(--meta)}
 .badge.article{background:var(--article)}.badge.review{background:var(--review)}.badge.guideline{background:var(--guideline)}
 @media (prefers-color-scheme:dark){.badge{color:#12161c}}
 .chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
@@ -87,6 +89,22 @@ details .abs p{margin:0 0 6px}
 .empty{text-align:center;color:var(--muted);padding:40px 10px}
 .more{display:block;margin:10px auto;padding:10px 20px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;cursor:pointer}
 .more[hidden]{display:none}
+.sec{margin-bottom:18px}
+.sec-hd{width:100%;display:flex;align-items:center;gap:10px;padding:10px 14px;border:none;border-radius:10px;background:var(--mon-bg);color:#fff;cursor:pointer;font:inherit;text-align:left;border-left:6px solid var(--c)}
+.sec-hd:hover{filter:brightness(1.15)}
+.sec-title{font-weight:700;font-size:1rem;flex:1}
+.sec-title small{display:block;font-weight:400;font-size:.78rem;opacity:.75}
+.sec-n{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:1.15rem;color:var(--c);background:rgba(255,255,255,.06);padding:2px 10px;border-radius:6px;white-space:nowrap}
+.sec-n small{font-size:.72rem;opacity:.8;margin-left:2px}
+.sec-arrow{transition:transform .2s;opacity:.8}
+.sec.open .sec-arrow{transform:rotate(180deg)}
+.sec-body{margin-top:8px}
+.sec-body:empty{display:none}
+.sec-empty{color:var(--muted);font-size:.85rem;padding:6px 4px 0}
+.sec-more{display:block;width:100%;padding:10px;border:1px dashed var(--c);border-radius:8px;background:transparent;color:var(--ink);cursor:pointer;font:inherit;font-size:.9rem}
+.sec-more:hover{background:var(--chip)}
+.sec.article{--c:var(--article)}.sec.review{--c:var(--review)}.sec.meta{--c:var(--meta)}.sec.guideline{--c:var(--guideline)}
+@media (prefers-color-scheme:dark){.sec-hd{background:#0b1218}}
 mark{background:#ffe082;color:inherit;padding:0 1px}
 .toggle-filters{display:none;width:100%;margin-bottom:10px;padding:10px}
 @media (max-width:860px){.toggle-filters{display:block}aside.collapsed .panel{display:none}}
@@ -142,18 +160,17 @@ footer a{color:var(--muted)}
       <select id="sort">
         <option value="date">日期（新→舊）</option>
         <option value="journal">期刊名稱</option>
-        <option value="type">類型（指引→綜論→原著）</option>
       </select>
     </div>
     <div class="monitor" aria-label="本週篇數">
       <div class="vital total"><div class="lbl">TOTAL 顯示</div><div class="val" id="vTotal">--</div></div>
-      <div class="vital g"><div class="lbl">GUIDELINE 指引</div><div class="val" id="vG">--</div></div>
-      <div class="vital r"><div class="lbl">REVIEW 綜論</div><div class="val" id="vR">--</div></div>
-      <div class="vital a"><div class="lbl">ARTICLE 原著</div><div class="val" id="vA">--</div></div>
+      <div class="vital article"><div class="lbl">ORIGINAL 原著</div><div class="val" id="v-article">--</div></div>
+      <div class="vital review"><div class="lbl">REVIEW 綜論</div><div class="val" id="v-review">--</div></div>
+      <div class="vital meta"><div class="lbl">SR/META 統合</div><div class="val" id="v-meta">--</div></div>
+      <div class="vital guideline"><div class="lbl">GUIDELINE 指引</div><div class="val" id="v-guideline">--</div></div>
     </div>
     <div class="status" id="status">載入中…</div>
     <div id="list"></div>
-    <button class="more" id="more" hidden>顯示更多</button>
   </main>
 </div>
 
@@ -165,19 +182,26 @@ footer a{color:var(--muted)}
 
 <script>
 const TYPES = [
-  {id:"article",   name:"Journal Article", zh:"原著"},
-  {id:"review",    name:"Review",          zh:"綜論 / 系統性回顧"},
-  {id:"guideline", name:"Guideline",       zh:"指引 / 共識"},
+  {id:"article",   name:"Original Article",                  short:"Original",       zh:"原著研究"},
+  {id:"review",    name:"Review",                            short:"Review",         zh:"綜論"},
+  {id:"meta",      name:"Systematic Review / Meta-analysis", short:"Meta-analysis",  zh:"系統性回顧 / 統合分析"},
+  {id:"guideline", name:"Consensus / Guideline",             short:"Guideline",      zh:"共識 / 指引"},
 ];
+const PREVIEW = 3;   // 每區預設顯示篇數
+const META_PT = ["Meta-Analysis","Systematic Review","Network Meta-Analysis"];
+const META_TITLE = /systematic review|meta-?analy|umbrella review|pooled analysis/i;
+function normType(a){
+  if (a.type === "guideline") return "guideline";
+  if ((a.pub_types||[]).some(p => META_PT.includes(p)) || META_TITLE.test(a.title)) return "meta";
+  return a.type === "review" ? "review" : "article";
+}
 const ICON = {general:"🏥",critical:"🫀",pediatric:"🧸",ems:"🚑",toxicology:"☠️",ultrasound:"📡",
   disaster:"🌪️",hyperbaric:"🤿",sports:"🏃",geriatric:"👵",neurology:"🧠",trauma:"🩸",
-  article:"📄",review:"📚",guideline:"📋"};
-const TYPE_ORDER = {guideline:0, review:1, article:2};
-const PAGE = 50;
-const STORE = "emweekly-filters-v1";
+  article:"🔬",review:"📚",meta:"📊",guideline:"📋"};
+const STORE = "emweekly-filters-v2";
 
 const $ = s => document.querySelector(s);
-const state = {cats:[], weekData:null, shown:PAGE};
+const state = {cats:[], weekData:null, open:new Set()};
 let saved = {};
 try { saved = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch(e) {}
 
@@ -226,8 +250,28 @@ function highlight(text, terms){
   return h;
 }
 
-function render(resetPage = true){
-  if (resetPage) state.shown = PAGE;
+function cardHTML(a, terms, catName){
+  const t = TYPES.find(t => t.id === a.type);
+  const au = a.authors.length > 6 ? a.authors.slice(0,6).join(", ") + ", et al." : a.authors.join(", ");
+  const abs = a.abstract.length
+    ? `<details><summary>摘要</summary><div class="abs">${a.abstract.map(p =>
+        `<p>${p.label ? `<b>${esc(p.label)}：</b>` : ""}${highlight(p.text, terms)}</p>`).join("")}</div></details>`
+    : "";
+  return `<article class="card ${a.type}">
+    <span class="badge ${a.type}">${t.short}</span>
+    <h3><a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">${highlight(a.title, terms)}</a></h3>
+    <div class="meta"><b>${esc(a.journal)}</b> · ${esc(a.date)}${au ? " · " + esc(au) : ""}</div>
+    <div class="chips">${a.cats.map(c => `<span class="chip">${ICON[c] || ""} ${esc(catName[c] || c)}</span>`).join("")}</div>
+    <div class="links">
+      <a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">PubMed</a>
+      ${a.doi ? `<a href="https://doi.org/${esc(a.doi)}" target="_blank" rel="noopener">全文 (DOI)</a>` : ""}
+      ${a.pmc ? `<a href="https://pmc.ncbi.nlm.nih.gov/articles/${esc(a.pmc)}/" target="_blank" rel="noopener">PMC 免費全文</a>` : ""}
+    </div>
+    ${abs}
+  </article>`;
+}
+
+function render(){
   persist(); updateCounts();
   const list = $("#list"), status = $("#status");
   const arts = state.weekData?.articles || [];
@@ -244,47 +288,40 @@ function render(resetPage = true){
     });
   }
   const sort = $("#sort").value;
-  rows.sort((x,y) =>
-    sort === "journal" ? x.journal.localeCompare(y.journal) || y.date.localeCompare(x.date) :
-    sort === "type" ? TYPE_ORDER[x.type] - TYPE_ORDER[y.type] || y.date.localeCompare(x.date) :
-    y.date.localeCompare(x.date));
+  rows.sort((x,y) => sort === "journal"
+    ? x.journal.localeCompare(y.journal) || y.date.localeCompare(x.date)
+    : y.date.localeCompare(x.date));
 
-  const tc = {article:0, review:0, guideline:0}; rows.forEach(a => tc[a.type]++);
-  $("#vTotal").textContent = rows.length; $("#vG").textContent = tc.guideline;
-  $("#vR").textContent = tc.review; $("#vA").textContent = tc.article;
+  const groups = Object.fromEntries(TYPES.map(t => [t.id, []]));
+  rows.forEach(a => groups[a.type].push(a));
+  $("#vTotal").textContent = rows.length;
+  TYPES.forEach(t => $("#v-" + t.id).textContent = types.has(t.id) ? groups[t.id].length : "–");
+
   const w = state.weekData;
-  status.textContent = w
-    ? `${w.range[0]} ～ ${w.range[1]} 收錄 · 顯示 ${rows.length} / ${arts.length} 篇`
-    : "";
+  status.textContent = w ? `${w.range[0]} ～ ${w.range[1]} 收錄 · 顯示 ${rows.length} / ${arts.length} 篇` : "";
 
-  if (!rows.length){
-    list.innerHTML = `<div class="empty">${
-      !cats.size ? "請至少選擇一個次專科" : !types.size ? "請至少選擇一種文章類型" : "沒有符合條件的文章"}</div>`;
-    $("#more").hidden = true;
+  if (!cats.size || !types.size){
+    list.innerHTML = `<div class="empty">${!cats.size ? "請至少選擇一個次專科" : "請至少選擇一種文章類型"}</div>`;
     return;
   }
 
-  list.innerHTML = rows.slice(0, state.shown).map(a => {
-    const t = TYPES.find(t => t.id === a.type);
-    const au = a.authors.length > 6 ? a.authors.slice(0,6).join(", ") + ", et al." : a.authors.join(", ");
-    const abs = a.abstract.length
-      ? `<details><summary>摘要</summary><div class="abs">${a.abstract.map(p =>
-          `<p>${p.label ? `<b>${esc(p.label)}：</b>` : ""}${highlight(p.text, terms)}</p>`).join("")}</div></details>`
+  list.innerHTML = TYPES.filter(t => types.has(t.id)).map(t => {
+    const g = groups[t.id], n = g.length, open = state.open.has(t.id);
+    const shown = open ? g : g.slice(0, PREVIEW);
+    const more = n > PREVIEW
+      ? `<button class="sec-more" data-sec="${t.id}">${open ? "收合 ▴" : `顯示全部 ${n} 篇（還有 ${n - PREVIEW} 篇）▾`}</button>`
       : "";
-    return `<article class="card ${a.type}">
-      <span class="badge ${a.type}">${t.name}</span>
-      <h3><a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">${highlight(a.title, terms)}</a></h3>
-      <div class="meta"><b>${esc(a.journal)}</b> · ${esc(a.date)}${au ? " · " + esc(au) : ""}</div>
-      <div class="chips">${a.cats.map(c => `<span class="chip">${ICON[c] || ""} ${esc(catName[c] || c)}</span>`).join("")}</div>
-      <div class="links">
-        <a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">PubMed</a>
-        ${a.doi ? `<a href="https://doi.org/${esc(a.doi)}" target="_blank" rel="noopener">全文 (DOI)</a>` : ""}
-        ${a.pmc ? `<a href="https://pmc.ncbi.nlm.nih.gov/articles/${esc(a.pmc)}/" target="_blank" rel="noopener">PMC 免費全文</a>` : ""}
-      </div>
-      ${abs}
-    </article>`;
+    return `<section class="sec ${t.id}${open ? " open" : ""}" id="sec-${t.id}">
+      <button class="sec-hd" data-sec="${t.id}" aria-expanded="${open}">
+        <span class="ico">${ICON[t.id]}</span>
+        <span class="sec-title">${t.name}<small>${t.zh}</small></span>
+        <span class="sec-n">${n}<small>篇</small></span>
+        ${n > PREVIEW ? `<span class="sec-arrow">▾</span>` : ""}
+      </button>
+      <div class="sec-body">${shown.map(a => cardHTML(a, terms, catName)).join("")}</div>
+      ${n ? more : `<div class="sec-empty">本週無符合條件的文章</div>`}
+    </section>`;
   }).join("");
-  $("#more").hidden = rows.length <= state.shown;
 }
 
 async function loadWeek(week){
@@ -292,6 +329,8 @@ async function loadWeek(week){
   try {
     const r = await fetch(`data/weeks/${week}.json`, {cache:"no-cache"});
     state.weekData = await r.json();
+    state.weekData.articles.forEach(a => a.type = normType(a));
+    state.open.clear();
   } catch(e){
     state.weekData = null;
     $("#list").innerHTML = `<div class="empty">無法載入 ${esc(week)} 的資料</div>`;
@@ -373,7 +412,15 @@ document.querySelectorAll("[data-all],[data-none]").forEach(b => b.addEventListe
 $("#week").addEventListener("change", e => { location.hash = e.target.value; loadWeek(e.target.value); });
 $("#sort").addEventListener("change", () => render());
 let qTimer; $("#q").addEventListener("input", () => { clearTimeout(qTimer); qTimer = setTimeout(render, 200); });
-$("#more").addEventListener("click", () => { state.shown += PAGE; render(false); });
+$("#list").addEventListener("click", e => {
+  const b = e.target.closest("[data-sec]"); if (!b) return;
+  const id = b.dataset.sec;
+  const wasOpen = state.open.has(id);
+  if (!wasOpen && !b.parentElement.querySelector(".sec-more")) return; // 篇數 ≤ 預覽數，不需展開
+  wasOpen ? state.open.delete(id) : state.open.add(id);
+  render();
+  if (wasOpen) document.getElementById("sec-" + id).scrollIntoView({behavior:"smooth", block:"start"});
+});
 $("#toggleFilters").addEventListener("click", () => {
   const a = $("#aside"); a.classList.toggle("collapsed");
   $("#toggleFilters").textContent = a.classList.contains("collapsed") ? "篩選條件 ▸" : "篩選條件 ▾";
