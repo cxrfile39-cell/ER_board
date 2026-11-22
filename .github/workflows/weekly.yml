@@ -2,11 +2,13 @@ name: Weekly update
 
 on:
   schedule:
-    # 每週一 06:00（台北時間）= 週日 22:00 UTC
-    - cron: "0 22 * * 0"
+    # 每週一 05:37（台北時間）= 週日 21:37 UTC
+    # 刻意避開整點：GitHub 整點排程最擁擠，常延遲甚至被略過
+    - cron: "37 21 * * 0"
+  # 第一次上傳檔案到 main 時自動執行（之後只在還沒有資料時才抓取）
   push:
     branches: [main]
-  workflow_dispatch:
+  workflow_dispatch:        # 備用：可在 Actions 分頁手動執行
 
 permissions:
   contents: write
