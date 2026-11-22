@@ -427,12 +427,19 @@ function fmtTaipei(d){
 function showUpdateTimes(updated){
   const last = updated ? new Date(updated) : null;
   $("#updated").textContent = last && !isNaN(last) ? fmtTaipei(last) + " 台北時間" : "尚未更新";
-  // 下一個週一 06:00 台北時間 = 週日 22:00 UTC
-  const now = new Date(), n = new Date(now);
-  n.setUTCHours(22,0,0,0);
-  n.setUTCDate(n.getUTCDate() + ((7 - n.getUTCDay()) % 7));
-  if (n <= now) n.setUTCDate(n.getUTCDate() + 7);
-  $("#next").textContent = fmtTaipei(n);
+  // 排程：每週一 06:00 台北時間 = 週日 22:00 UTC
+  const now = new Date();
+  const due = new Date(now);                       // 最近一次「已到期」的排程時間
+  due.setUTCHours(22,0,0,0);
+  due.setUTCDate(due.getUTCDate() - due.getUTCDay());
+  if (due > now) due.setUTCDate(due.getUTCDate() - 7);
+  const next = new Date(due.getTime() + 7*864e5);
+  if (last && !isNaN(last) && last < due){
+    // 本週排程時間已過，但資料還沒更新（GitHub 排程常延遲數十分鐘）
+    $("#next").textContent = `${fmtTaipei(due)} 本週更新處理中…`;
+  } else {
+    $("#next").textContent = fmtTaipei(next);
+  }
 }
 
 function drawECG(){
