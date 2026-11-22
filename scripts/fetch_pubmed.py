@@ -249,15 +249,17 @@ GUIDELINE_PT = {
     "Guideline", "Practice Guideline", "Consensus Development Conference",
     "Consensus Development Conference, NIH",
 }
-REVIEW_PT = {"Review", "Systematic Review", "Meta-Analysis", "Scoping Review"}
+META_PT = {"Systematic Review", "Meta-Analysis", "Network Meta-Analysis"}
+REVIEW_PT = {"Review", "Scoping Review"}
 GUIDELINE_TITLE = re.compile(
     r"guideline|consensus|position statement|policy statement|scientific statement|"
     r"clinical policy|practice parameter|recommendations?\b|best practice statement",
     re.I,
 )
+META_TITLE = re.compile(r"systematic review|meta-?analy|umbrella review|pooled analysis", re.I)
 REVIEW_TITLE = re.compile(
-    r"systematic review|meta-?analy|scoping review|narrative review|umbrella review|"
-    r"rapid review|literature review|\breview\b|state of the art|evidence synthesis",
+    r"scoping review|narrative review|rapid review|literature review|\breview\b|"
+    r"state of the art|evidence synthesis",
     re.I,
 )
 
@@ -343,6 +345,8 @@ def classify(pub_types: list[str], title: str) -> str:
     pts = set(pub_types)
     if pts & GUIDELINE_PT or GUIDELINE_TITLE.search(title):
         return "guideline"
+    if pts & META_PT or META_TITLE.search(title):
+        return "meta"
     if pts & REVIEW_PT or REVIEW_TITLE.search(title):
         return "review"
     return "article"
