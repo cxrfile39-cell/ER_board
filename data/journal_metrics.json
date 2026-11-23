@@ -1,0 +1,1832 @@
+{
+ "ACS Omega": {
+  "if": 6.05,
+  "h": 189,
+  "issn": "2470-1343",
+  "updated": "2026-11-23"
+ },
+ "AEM Educ Train": {
+  "if": 1.66,
+  "h": 43,
+  "issn": "2472-5390",
+  "updated": "2026-11-23"
+ },
+ "ATS Sch": {
+  "if": 1.49,
+  "h": 23,
+  "issn": "2690-7097",
+  "updated": "2026-11-23"
+ },
+ "Acad Emerg Med": {
+  "if": 2.16,
+  "h": 190,
+  "issn": "1069-6563",
+  "updated": "2026-11-23"
+ },
+ "Acc Chem Res": {
+  "if": 16.7,
+  "h": 593,
+  "issn": "0001-4842",
+  "updated": "2026-11-23"
+ },
+ "Acute Med Surg": {
+  "if": 1.97,
+  "h": 43,
+  "issn": "2052-8817",
+  "updated": "2026-11-23"
+ },
+ "Adv Sci (Weinh)": {
+  "if": 13.58,
+  "h": 296,
+  "issn": "2198-3844",
+  "updated": "2026-11-23"
+ },
+ "Age Ageing": {
+  "if": 2.69,
+  "h": 254,
+  "issn": "0002-0729",
+  "updated": "2026-11-23"
+ },
+ "Allergol Immunopathol (Madr)": {
+  "if": 2.12,
+  "h": 61,
+  "issn": "0301-0546",
+  "updated": "2026-11-23"
+ },
+ "Am J Addict": {
+  "if": 1.28,
+  "h": 120,
+  "issn": "1055-0496",
+  "updated": "2026-11-23"
+ },
+ "Am J Cardiol": {
+  "if": 2.12,
+  "h": 372,
+  "issn": "0002-9149",
+  "updated": "2026-11-23"
+ },
+ "Am J Case Rep": {
+  "if": 1.29,
+  "h": 42,
+  "issn": "1941-5923",
+  "updated": "2026-11-23"
+ },
+ "Am J Emerg Med": {
+  "if": 2.5,
+  "h": 162,
+  "issn": "0735-6757",
+  "updated": "2026-11-23"
+ },
+ "Am J Hosp Palliat Care": {
+  "if": 2.14,
+  "h": 95,
+  "issn": "1049-9091",
+  "updated": "2026-11-23"
+ },
+ "Am J Infect Control": {
+  "if": 1.68,
+  "h": 189,
+  "issn": "0196-6553",
+  "updated": "2026-11-23"
+ },
+ "Am J Lifestyle Med": {
+  "if": 2.56,
+  "h": 91,
+  "issn": "1559-8276",
+  "updated": "2026-11-23"
+ },
+ "Am J Physiol Regul Integr Comp Physiol": {
+  "if": 2.97,
+  "h": 273,
+  "issn": "0363-6119",
+  "updated": "2026-11-23"
+ },
+ "Am J Transl Res": {
+  "if": 1.92,
+  "h": 37,
+  "issn": "1943-8141",
+  "updated": "2026-11-23"
+ },
+ "Anaesth Crit Care Pain Med": {
+  "if": 3.55,
+  "h": 64,
+  "issn": "2352-5568",
+  "updated": "2026-11-23"
+ },
+ "Anaesth Intensive Care": {
+  "if": 1.38,
+  "h": 111,
+  "issn": "0310-057X",
+  "updated": "2026-11-23"
+ },
+ "Ann Afr Med": {
+  "if": 1.75,
+  "h": 59,
+  "issn": "0975-5764",
+  "updated": "2026-11-23"
+ },
+ "Ann Am Thorac Soc": {
+  "if": 3.94,
+  "h": 148,
+  "issn": "2325-6621",
+  "updated": "2026-11-23"
+ },
+ "Ann Emerg Med": {
+  "if": 0.97,
+  "h": 251,
+  "issn": "0196-0644",
+  "updated": "2026-11-23"
+ },
+ "Ann Epidemiol": {
+  "if": 2.17,
+  "h": 198,
+  "issn": "1047-2797",
+  "updated": "2026-11-23"
+ },
+ "Ann Geriatr Med Res": {
+  "if": 3.47,
+  "h": 41,
+  "issn": "2508-4798",
+  "updated": "2026-11-23"
+ },
+ "Ann Med": {
+  "if": 6.2,
+  "h": 182,
+  "issn": "0785-3890",
+  "updated": "2026-11-23"
+ },
+ "Antimicrob Steward Healthc Epidemiol": {
+  "if": 1.06,
+  "h": 28,
+  "issn": "2732-494X",
+  "updated": "2026-11-23"
+ },
+ "Arch Dis Child": {
+  "if": 1.89,
+  "h": 274,
+  "issn": "0003-9888",
+  "updated": "2026-11-23"
+ },
+ "Arch Dis Child Educ Pract Ed": {
+  "if": 0.62,
+  "h": 60,
+  "issn": "1743-0585",
+  "updated": "2026-11-23"
+ },
+ "Arthrosc Sports Med Rehabil": {
+  "if": 2.65,
+  "h": 39,
+  "issn": "2666-061X",
+  "updated": "2026-11-23"
+ },
+ "Aust Health Rev": {
+  "if": 1.41,
+  "h": 83,
+  "issn": "0156-5788",
+  "updated": "2026-11-23"
+ },
+ "Australas J Ultrasound Med": {
+  "if": 1.3,
+  "h": 30,
+  "issn": "1836-6864",
+  "updated": "2026-11-23"
+ },
+ "BMC Anesthesiol": {
+  "if": 4.35,
+  "h": 86,
+  "issn": "1471-2253",
+  "updated": "2026-11-23"
+ },
+ "BMC Cancer": {
+  "if": 4.95,
+  "h": 223,
+  "issn": "1471-2407",
+  "updated": "2026-11-23"
+ },
+ "BMC Cardiovasc Disord": {
+  "if": 4.2,
+  "h": 105,
+  "issn": "1471-2261",
+  "updated": "2026-11-23"
+ },
+ "BMC Emerg Med": {
+  "if": 4.98,
+  "h": 77,
+  "issn": "1471-227X",
+  "updated": "2026-11-23"
+ },
+ "BMC Geriatr": {
+  "if": 6.19,
+  "h": 174,
+  "issn": "1471-2318",
+  "updated": "2026-11-23"
+ },
+ "BMC Health Serv Res": {
+  "if": 5.6,
+  "h": 252,
+  "issn": "1472-6963",
+  "updated": "2026-11-23"
+ },
+ "BMC Med": {
+  "if": 10.82,
+  "h": 283,
+  "issn": "1741-7015",
+  "updated": "2026-11-23"
+ },
+ "BMC Med Educ": {
+  "if": 7.84,
+  "h": 195,
+  "issn": "1472-6920",
+  "updated": "2026-11-23"
+ },
+ "BMC Med Ethics": {
+  "if": 6.53,
+  "h": 108,
+  "issn": "1472-6939",
+  "updated": "2026-11-23"
+ },
+ "BMC Musculoskelet Disord": {
+  "if": 4.11,
+  "h": 187,
+  "issn": "1471-2474",
+  "updated": "2026-11-23"
+ },
+ "BMC Neurol": {
+  "if": 3.91,
+  "h": 133,
+  "issn": "1471-2377",
+  "updated": "2026-11-23"
+ },
+ "BMC Nurs": {
+  "if": 9.17,
+  "h": 128,
+  "issn": "1472-6955",
+  "updated": "2026-11-23"
+ },
+ "BMC Oral Health": {
+  "if": 6.15,
+  "h": 134,
+  "issn": "1472-6831",
+  "updated": "2026-11-23"
+ },
+ "BMC Palliat Care": {
+  "if": 5.82,
+  "h": 102,
+  "issn": "1472-684X",
+  "updated": "2026-11-23"
+ },
+ "BMC Pediatr": {
+  "if": 3.76,
+  "h": 156,
+  "issn": "1471-2431",
+  "updated": "2026-11-23"
+ },
+ "BMC Public Health": {
+  "if": 6.9,
+  "h": 331,
+  "issn": "1471-2458",
+  "updated": "2026-11-23"
+ },
+ "BMC Pulm Med": {
+  "if": 4.02,
+  "h": 117,
+  "issn": "1471-2466",
+  "updated": "2026-11-23"
+ },
+ "BMJ": {
+  "if": 0.0,
+  "h": 200,
+  "issn": "0959-8138",
+  "updated": "2026-11-23"
+ },
+ "BMJ Case Rep": {
+  "if": 0.65,
+  "h": 62,
+  "issn": "1757-790X",
+  "updated": "2026-11-23"
+ },
+ "BMJ Med": {
+  "if": 11.6,
+  "h": 44,
+  "issn": "2754-0413",
+  "updated": "2026-11-23"
+ },
+ "BMJ Public Health": {
+  "if": 2.72,
+  "h": 26,
+  "issn": "2753-4294",
+  "updated": "2026-11-23"
+ },
+ "Behav Processes": {
+  "if": 1.81,
+  "h": 143,
+  "issn": "0376-6357",
+  "updated": "2026-11-23"
+ },
+ "Br J Anaesth": {
+  "if": 5.08,
+  "h": 317,
+  "issn": "0007-0912",
+  "updated": "2026-11-23"
+ },
+ "Br J Nurs": {
+  "if": 1.15,
+  "h": 103,
+  "issn": "0966-0461",
+  "updated": "2026-11-23"
+ },
+ "CJEM": {
+  "if": 1.19,
+  "h": 77,
+  "issn": "1481-8035",
+  "updated": "2026-11-23"
+ },
+ "Case Rep Cardiol": {
+  "if": 0.66,
+  "h": 24,
+  "issn": "2090-6404",
+  "updated": "2026-11-23"
+ },
+ "Case Rep Urol": {
+  "if": 0.87,
+  "h": 23,
+  "issn": "2090-6978",
+  "updated": "2026-11-23"
+ },
+ "Cells": {
+  "if": 7.52,
+  "h": 257,
+  "issn": "2073-4409",
+  "updated": "2026-11-23"
+ },
+ "ChemSusChem": {
+  "if": 5.8,
+  "h": 250,
+  "issn": "1864-5631",
+  "updated": "2026-11-23"
+ },
+ "Chest": {
+  "if": 0.62,
+  "h": 445,
+  "issn": "0012-3692",
+  "updated": "2026-11-23"
+ },
+ "Clin Appl Thromb Hemost": {
+  "if": 2.63,
+  "h": 82,
+  "issn": "1076-0296",
+  "updated": "2026-11-23"
+ },
+ "Clin Case Rep": {
+  "if": 0.93,
+  "h": 39,
+  "issn": "2050-0904",
+  "updated": "2026-11-23"
+ },
+ "Clin Child Psychol Psychiatry": {
+  "if": 2.74,
+  "h": 103,
+  "issn": "1359-1045",
+  "updated": "2026-11-23"
+ },
+ "Clin Infect Dis": {
+  "if": 6.94,
+  "h": 519,
+  "issn": "1058-4838",
+  "updated": "2026-11-23"
+ },
+ "Clin J Sport Med": {
+  "if": 1.58,
+  "h": 159,
+  "issn": "1050-642X",
+  "updated": "2026-11-23"
+ },
+ "Clin Lab": {
+  "if": 0.83,
+  "h": 49,
+  "issn": "1433-6510",
+  "updated": "2026-11-23"
+ },
+ "Clin Med (Lond)": {
+  "if": 2.43,
+  "h": 128,
+  "issn": "1470-2118",
+  "updated": "2026-11-23"
+ },
+ "Clin Med Insights Arthritis Musculoskelet Disord": {
+  "if": 1.95,
+  "h": 36,
+  "issn": "1179-5441",
+  "updated": "2026-11-23"
+ },
+ "Clin Microbiol Infect": {
+  "if": 5.9,
+  "h": 274,
+  "issn": "1198-743X",
+  "updated": "2026-11-23"
+ },
+ "Clin Neurol Neurosurg": {
+  "if": 2.2,
+  "h": 120,
+  "issn": "0303-8467",
+  "updated": "2026-11-23"
+ },
+ "Clin Nutr Res": {
+  "if": 2.44,
+  "h": 38,
+  "issn": "2287-3732",
+  "updated": "2026-11-23"
+ },
+ "Clin Pediatr (Phila)": {
+  "if": 1.04,
+  "h": 116,
+  "issn": "0009-9228",
+  "updated": "2026-11-23"
+ },
+ "Clin Rehabil": {
+  "if": 4.04,
+  "h": 180,
+  "issn": "0269-2155",
+  "updated": "2026-11-23"
+ },
+ "Clin Spine Surg": {
+  "if": 1.85,
+  "h": 62,
+  "issn": "2380-0186",
+  "updated": "2026-11-23"
+ },
+ "Clin Toxicol (Phila)": {
+  "if": 2.97,
+  "h": 124,
+  "issn": "1556-3650",
+  "updated": "2026-11-23"
+ },
+ "Clin Transl Radiat Oncol": {
+  "if": 3.96,
+  "h": 53,
+  "issn": "2405-6308",
+  "updated": "2026-11-23"
+ },
+ "Crit Care Explor": {
+  "if": 3.48,
+  "h": 56,
+  "issn": "2639-8028",
+  "updated": "2026-11-23"
+ },
+ "Crit Care Med": {
+  "if": 1.44,
+  "h": 437,
+  "issn": "0090-3493",
+  "updated": "2026-11-23"
+ },
+ "Cureus": {
+  "if": 2.5,
+  "h": 174,
+  "issn": "2168-8184",
+  "updated": "2026-11-23"
+ },
+ "Curr Med Chem": {
+  "if": 3.38,
+  "h": 250,
+  "issn": "0929-8673",
+  "updated": "2026-11-23"
+ },
+ "Curr Med Imaging": {
+  "if": 1.4,
+  "h": 53,
+  "issn": "1573-4056",
+  "updated": "2026-11-23"
+ },
+ "Dermatol Online J": {
+  "if": 0.71,
+  "h": 70,
+  "issn": "1087-2108",
+  "updated": "2026-11-23"
+ },
+ "Diagn Interv Imaging": {
+  "if": 6.18,
+  "h": 87,
+  "issn": "2211-5684",
+  "updated": "2026-11-23"
+ },
+ "Diagnostics (Basel)": {
+  "if": 5.95,
+  "h": 149,
+  "issn": "2075-4418",
+  "updated": "2026-11-23"
+ },
+ "Disaster Med Public Health Prep": {
+  "if": 1.86,
+  "h": 89,
+  "issn": "1935-7893",
+  "updated": "2026-11-23"
+ },
+ "ESC Heart Fail": {
+  "if": 4.33,
+  "h": 87,
+  "issn": "2055-5822",
+  "updated": "2026-11-23"
+ },
+ "Ecol Evol": {
+  "if": 3.13,
+  "h": 161,
+  "issn": "2045-7758",
+  "updated": "2026-11-23"
+ },
+ "Ecotoxicol Environ Saf": {
+  "if": 7.98,
+  "h": 256,
+  "issn": "0147-6513",
+  "updated": "2026-11-23"
+ },
+ "Emerg Med Australas": {
+  "if": 1.48,
+  "h": 89,
+  "issn": "1742-6723",
+  "updated": "2026-11-23"
+ },
+ "Emerg Med Clin North Am": {
+  "if": 1.99,
+  "h": 94,
+  "issn": "0733-8627",
+  "updated": "2026-11-23"
+ },
+ "Emerg Med Int": {
+  "if": 1.08,
+  "h": 46,
+  "issn": "2090-2840",
+  "updated": "2026-11-23"
+ },
+ "Emerg Med J": {
+  "if": 1.0,
+  "h": 138,
+  "issn": "1472-0205",
+  "updated": "2026-11-23"
+ },
+ "Emerg Nurse": {
+  "if": 0.54,
+  "h": 37,
+  "issn": "1354-5752",
+  "updated": "2026-11-23"
+ },
+ "Equine Vet J": {
+  "if": 1.19,
+  "h": 157,
+  "issn": "0425-1644",
+  "updated": "2026-11-23"
+ },
+ "Eur Heart J Case Rep": {
+  "if": 0.8,
+  "h": 28,
+  "issn": "2514-2119",
+  "updated": "2026-11-23"
+ },
+ "Eur J Cardiovasc Nurs": {
+  "if": 2.07,
+  "h": 101,
+  "issn": "1474-5151",
+  "updated": "2026-11-23"
+ },
+ "Eur J Pediatr": {
+  "if": 4.07,
+  "h": 171,
+  "issn": "0340-6199",
+  "updated": "2026-11-23"
+ },
+ "Eur J Surg Oncol": {
+  "if": 0.95,
+  "h": 156,
+  "issn": "0748-7983",
+  "updated": "2026-11-23"
+ },
+ "Eur J Trauma Emerg Surg": {
+  "if": 3.12,
+  "h": 75,
+  "issn": "1863-9933",
+  "updated": "2026-11-23"
+ },
+ "Euro Surveill": {
+  "if": 8.01,
+  "h": 188,
+  "issn": "1025-496X",
+  "updated": "2026-11-23"
+ },
+ "Exp Mol Med": {
+  "if": 19.94,
+  "h": 195,
+  "issn": "1226-3613",
+  "updated": "2026-11-23"
+ },
+ "Expert Rev Anti Infect Ther": {
+  "if": 5.81,
+  "h": 140,
+  "issn": "1478-7210",
+  "updated": "2026-11-23"
+ },
+ "Explor Res Clin Soc Pharm": {
+  "if": 4.27,
+  "h": 34,
+  "issn": "2667-2766",
+  "updated": "2026-11-23"
+ },
+ "Fam Pract": {
+  "if": 2.4,
+  "h": 166,
+  "issn": "0263-2136",
+  "updated": "2026-11-23"
+ },
+ "Forensic Sci Med Pathol": {
+  "if": 2.0,
+  "h": 67,
+  "issn": "1547-769X",
+  "updated": "2026-11-23"
+ },
+ "Front Aging": {
+  "if": 5.98,
+  "h": 48,
+  "issn": "2673-6217",
+  "updated": "2026-11-23"
+ },
+ "Front Cardiovasc Med": {
+  "if": 3.72,
+  "h": 131,
+  "issn": "2297-055X",
+  "updated": "2026-11-23"
+ },
+ "Front Health Serv": {
+  "if": 3.8,
+  "h": 34,
+  "issn": "2813-0146",
+  "updated": "2026-11-23"
+ },
+ "Front Med (Lausanne)": {
+  "if": 4.68,
+  "h": 169,
+  "issn": "2296-858X",
+  "updated": "2026-11-23"
+ },
+ "Front Neurol": {
+  "if": 4.19,
+  "h": 180,
+  "issn": "1664-2295",
+  "updated": "2026-11-23"
+ },
+ "Front Neurosci": {
+  "if": 4.98,
+  "h": 249,
+  "issn": "1662-453X",
+  "updated": "2026-11-23"
+ },
+ "Front Pediatr": {
+  "if": 3.07,
+  "h": 130,
+  "issn": "2296-2360",
+  "updated": "2026-11-23"
+ },
+ "Front Pharmacol": {
+  "if": 6.28,
+  "h": 269,
+  "issn": "1663-9812",
+  "updated": "2026-11-23"
+ },
+ "Front Psychol": {
+  "if": 7.09,
+  "h": 376,
+  "issn": "1664-1078",
+  "updated": "2026-11-23"
+ },
+ "Front Public Health": {
+  "if": 6.05,
+  "h": 200,
+  "issn": "2296-2565",
+  "updated": "2026-11-23"
+ },
+ "Glob Public Health": {
+  "if": 3.95,
+  "h": 106,
+  "issn": "1744-1692",
+  "updated": "2026-11-23"
+ },
+ "HCA Healthc J Med": {
+  "if": 1.45,
+  "h": 17,
+  "issn": "2689-0216",
+  "updated": "2026-11-23"
+ },
+ "HNO": {
+  "if": 1.07,
+  "h": 55,
+  "issn": "0017-6192",
+  "updated": "2026-11-23"
+ },
+ "HRB Open Res": {
+  "if": 1.1,
+  "h": 25,
+  "issn": "2515-4826",
+  "updated": "2026-11-23"
+ },
+ "Health Aff Sch": {
+  "if": 4.6,
+  "h": 27,
+  "issn": "2976-5390",
+  "updated": "2026-11-23"
+ },
+ "Health Econ Rev": {
+  "if": 5.18,
+  "h": 65,
+  "issn": "2191-1991",
+  "updated": "2026-11-23"
+ },
+ "Health Sci Rep": {
+  "if": 4.42,
+  "h": 57,
+  "issn": "2398-8835",
+  "updated": "2026-11-23"
+ },
+ "Health Serv Insights": {
+  "if": 2.91,
+  "h": 43,
+  "issn": "1178-6329",
+  "updated": "2026-11-23"
+ },
+ "Health Serv Manage Res": {
+  "if": 2.25,
+  "h": 60,
+  "issn": "0951-4848",
+  "updated": "2026-11-23"
+ },
+ "Healthcare (Basel)": {
+  "if": 6.22,
+  "h": 150,
+  "issn": "2227-9032",
+  "updated": "2026-11-23"
+ },
+ "Heart": {
+  "if": 1.26,
+  "h": 297,
+  "issn": "1355-6037",
+  "updated": "2026-11-23"
+ },
+ "Hosp Pediatr": {
+  "if": 2.21,
+  "h": 60,
+  "issn": "2154-1671",
+  "updated": "2026-11-23"
+ },
+ "Indian J Anaesth": {
+  "if": 2.11,
+  "h": 82,
+  "issn": "0019-5049",
+  "updated": "2026-11-23"
+ },
+ "Infect Chemother": {
+  "if": 2.78,
+  "h": 56,
+  "issn": "1598-8112",
+  "updated": "2026-11-23"
+ },
+ "Infect Dis Ther": {
+  "if": 6.31,
+  "h": 82,
+  "issn": "2193-6382",
+  "updated": "2026-11-23"
+ },
+ "Influenza Other Respir Viruses": {
+  "if": 3.95,
+  "h": 101,
+  "issn": "1750-2640",
+  "updated": "2026-11-23"
+ },
+ "Injury": {
+  "if": 2.58,
+  "h": 208,
+  "issn": "0020-1383",
+  "updated": "2026-11-23"
+ },
+ "Inquiry": {
+  "if": 5.14,
+  "h": 72,
+  "issn": "0046-9580",
+  "updated": "2026-11-23"
+ },
+ "Int Arch Allergy Immunol": {
+  "if": 2.6,
+  "h": 139,
+  "issn": "1018-2438",
+  "updated": "2026-11-23"
+ },
+ "Int Emerg Nurs": {
+  "if": 4.08,
+  "h": 80,
+  "issn": "1878-013X",
+  "updated": "2026-11-23"
+ },
+ "Int J Biometeorol": {
+  "if": 4.04,
+  "h": 157,
+  "issn": "0020-7128",
+  "updated": "2026-11-23"
+ },
+ "Int J Cardiol": {
+  "if": 2.39,
+  "h": 208,
+  "issn": "0167-5273",
+  "updated": "2026-11-23"
+ },
+ "Int J Eat Disord": {
+  "if": 4.72,
+  "h": 244,
+  "issn": "0276-3478",
+  "updated": "2026-11-23"
+ },
+ "Int J Emerg Med": {
+  "if": 3.37,
+  "h": 68,
+  "issn": "1865-1372",
+  "updated": "2026-11-23"
+ },
+ "Int J Equity Health": {
+  "if": 7.33,
+  "h": 153,
+  "issn": "1475-9276",
+  "updated": "2026-11-23"
+ },
+ "Int J Gen Med": {
+  "if": 3.12,
+  "h": 89,
+  "issn": "1178-7074",
+  "updated": "2026-11-23"
+ },
+ "Int J Infect Dis": {
+  "if": 3.28,
+  "h": 187,
+  "issn": "1201-9712",
+  "updated": "2026-11-23"
+ },
+ "Int J Pediatr": {
+  "if": 3.31,
+  "h": 68,
+  "issn": "1687-9740",
+  "updated": "2026-11-23"
+ },
+ "Int J Pediatr Otorhinolaryngol": {
+  "if": 2.09,
+  "h": 139,
+  "issn": "0165-5876",
+  "updated": "2026-11-23"
+ },
+ "Int J Radiat Biol": {
+  "if": 2.46,
+  "h": 147,
+  "issn": "0955-3002",
+  "updated": "2026-11-23"
+ },
+ "Int Marit Health": {
+  "if": 1.83,
+  "h": 34,
+  "issn": "1641-9251",
+  "updated": "2026-11-23"
+ },
+ "Intern Emerg Med": {
+  "if": 4.03,
+  "h": 96,
+  "issn": "1828-0447",
+  "updated": "2026-11-23"
+ },
+ "Ir J Med Sci": {
+  "if": 2.53,
+  "h": 74,
+  "issn": "0021-1265",
+  "updated": "2026-11-23"
+ },
+ "Ital J Pediatr": {
+  "if": 5.32,
+  "h": 94,
+  "issn": "1720-8424",
+  "updated": "2026-11-23"
+ },
+ "J Adolesc Health": {
+  "if": 2.89,
+  "h": 288,
+  "issn": "1054-139X",
+  "updated": "2026-11-23"
+ },
+ "J Am Acad Psychiatry Law": {
+  "if": 0.0,
+  "h": 27,
+  "issn": "1093-6793",
+  "updated": "2026-11-23"
+ },
+ "J Am Coll Cardiol": {
+  "if": 1.41,
+  "h": 659,
+  "issn": "0735-1097",
+  "updated": "2026-11-23"
+ },
+ "J Am Coll Emerg Physicians Open": {
+  "if": 1.71,
+  "h": 45,
+  "issn": "2688-1152",
+  "updated": "2026-11-23"
+ },
+ "J Am Heart Assoc": {
+  "if": 6.56,
+  "h": 215,
+  "issn": "2047-9980",
+  "updated": "2026-11-23"
+ },
+ "J Anaesthesiol Clin Pharmacol": {
+  "if": 1.49,
+  "h": 72,
+  "issn": "0970-9185",
+  "updated": "2026-11-23"
+ },
+ "J Anesth Analg Crit Care": {
+  "if": 5.32,
+  "h": 31,
+  "issn": "2731-3786",
+  "updated": "2026-11-23"
+ },
+ "J Anim Ecol": {
+  "if": 3.94,
+  "h": 340,
+  "issn": "0021-8790",
+  "updated": "2026-11-23"
+ },
+ "J Appl Gerontol": {
+  "if": 2.85,
+  "h": 104,
+  "issn": "0733-4648",
+  "updated": "2026-11-23"
+ },
+ "J Arthroplasty": {
+  "if": 3.96,
+  "h": 218,
+  "issn": "0883-5403",
+  "updated": "2026-11-23"
+ },
+ "J Burn Care Res": {
+  "if": 0.95,
+  "h": 101,
+  "issn": "1559-047X",
+  "updated": "2026-11-23"
+ },
+ "J Clin Med": {
+  "if": 4.74,
+  "h": 215,
+  "issn": "2077-0383",
+  "updated": "2026-11-23"
+ },
+ "J Clin Neurosci": {
+  "if": 2.09,
+  "h": 132,
+  "issn": "0967-5868",
+  "updated": "2026-11-23"
+ },
+ "J Clin Psychopharmacol": {
+  "if": 1.68,
+  "h": 175,
+  "issn": "0271-0749",
+  "updated": "2026-11-23"
+ },
+ "J Clin Ultrasound": {
+  "if": 1.31,
+  "h": 99,
+  "issn": "0091-2751",
+  "updated": "2026-11-23"
+ },
+ "J Correct Health Care": {
+  "if": 1.09,
+  "h": 49,
+  "issn": "1078-3458",
+  "updated": "2026-11-23"
+ },
+ "J Crit Care": {
+  "if": 2.1,
+  "h": 159,
+  "issn": "0883-9441",
+  "updated": "2026-11-23"
+ },
+ "J Emerg Manag": {
+  "if": 0.65,
+  "h": 29,
+  "issn": "1543-5865",
+  "updated": "2026-11-23"
+ },
+ "J Emerg Med": {
+  "if": 1.37,
+  "h": 143,
+  "issn": "0736-4679",
+  "updated": "2026-11-23"
+ },
+ "J Gen Intern Med": {
+  "if": 3.36,
+  "h": 303,
+  "issn": "0884-8734",
+  "updated": "2026-11-23"
+ },
+ "J Healthc Leadersh": {
+  "if": 8.16,
+  "h": 51,
+  "issn": "1179-3201",
+  "updated": "2026-11-23"
+ },
+ "J Healthc Qual Res": {
+  "if": 1.65,
+  "h": 23,
+  "issn": "2603-6479",
+  "updated": "2026-11-23"
+ },
+ "J Hosp Med": {
+  "if": 1.46,
+  "h": 111,
+  "issn": "1553-5592",
+  "updated": "2026-11-23"
+ },
+ "J ISAKOS": {
+  "if": 1.76,
+  "h": 43,
+  "issn": "2059-7754",
+  "updated": "2026-11-23"
+ },
+ "J Infect Public Health": {
+  "if": 5.9,
+  "h": 111,
+  "issn": "1876-0341",
+  "updated": "2026-11-23"
+ },
+ "J Int Med Res": {
+  "if": 2.68,
+  "h": 107,
+  "issn": "0300-0605",
+  "updated": "2026-11-23"
+ },
+ "J Med Case Rep": {
+  "if": 1.4,
+  "h": 62,
+  "issn": "1752-1947",
+  "updated": "2026-11-23"
+ },
+ "J Med Cases": {
+  "if": 0.94,
+  "h": 17,
+  "issn": "1923-4155",
+  "updated": "2026-11-23"
+ },
+ "J Med Internet Res": {
+  "if": 12.7,
+  "h": 325,
+  "issn": "1438-8871",
+  "updated": "2026-11-23"
+ },
+ "J Neurosurg Sci": {
+  "if": 0.94,
+  "h": 36,
+  "issn": "0390-5616",
+  "updated": "2026-11-23"
+ },
+ "J Nurs Manag": {
+  "if": 7.52,
+  "h": 174,
+  "issn": "0966-0429",
+  "updated": "2026-11-23"
+ },
+ "J Obstet Gynecol Neonatal Nurs": {
+  "if": 0.74,
+  "h": 131,
+  "issn": "0090-0311",
+  "updated": "2026-11-23"
+ },
+ "J Orthop Surg (Hong Kong)": {
+  "if": 2.21,
+  "h": 73,
+  "issn": "1022-5536",
+  "updated": "2026-11-23"
+ },
+ "J Orthop Trauma": {
+  "if": 2.29,
+  "h": 200,
+  "issn": "0890-5339",
+  "updated": "2026-11-23"
+ },
+ "J Palliat Med": {
+  "if": 1.45,
+  "h": 145,
+  "issn": "1557-7740",
+  "updated": "2026-11-23"
+ },
+ "J Patient Exp": {
+  "if": 3.21,
+  "h": 52,
+  "issn": "2374-3735",
+  "updated": "2026-11-23"
+ },
+ "J Patient Saf": {
+  "if": 2.37,
+  "h": 80,
+  "issn": "1549-8417",
+  "updated": "2026-11-23"
+ },
+ "J Pediatr": {
+  "if": 2.84,
+  "h": 355,
+  "issn": "0022-3476",
+  "updated": "2026-11-23"
+ },
+ "J Pediatr Gastroenterol Nutr": {
+  "if": 3.04,
+  "h": 206,
+  "issn": "0277-2116",
+  "updated": "2026-11-23"
+ },
+ "J Pediatr Nurs": {
+  "if": 3.61,
+  "h": 123,
+  "issn": "0882-5963",
+  "updated": "2026-11-23"
+ },
+ "J Pediatr Orthop": {
+  "if": 1.98,
+  "h": 170,
+  "issn": "0271-6798",
+  "updated": "2026-11-23"
+ },
+ "J Pediatr Surg": {
+  "if": 2.2,
+  "h": 207,
+  "issn": "0022-3468",
+  "updated": "2026-11-23"
+ },
+ "J Pediatr Urol": {
+  "if": 1.58,
+  "h": 84,
+  "issn": "1477-5131",
+  "updated": "2026-11-23"
+ },
+ "J Physician Assist Educ": {
+  "if": 1.04,
+  "h": 29,
+  "issn": "1941-9430",
+  "updated": "2026-11-23"
+ },
+ "J Plast Reconstr Aesthet Surg": {
+  "if": 2.07,
+  "h": 130,
+  "issn": "1748-6815",
+  "updated": "2026-11-23"
+ },
+ "J Sci Med Sport": {
+  "if": 2.31,
+  "h": 191,
+  "issn": "1878-1861",
+  "updated": "2026-11-23"
+ },
+ "J Shoulder Elbow Surg": {
+  "if": 2.98,
+  "h": 224,
+  "issn": "1058-2746",
+  "updated": "2026-11-23"
+ },
+ "J Stroke Cerebrovasc Dis": {
+  "if": 2.4,
+  "h": 114,
+  "issn": "1052-3057",
+  "updated": "2026-11-23"
+ },
+ "J Surg Educ": {
+  "if": 2.56,
+  "h": 102,
+  "issn": "1878-7452",
+  "updated": "2026-11-23"
+ },
+ "J Tissue Viability": {
+  "if": 3.64,
+  "h": 67,
+  "issn": "0965-206X",
+  "updated": "2026-11-23"
+ },
+ "J Trauma Acute Care Surg": {
+  "if": 3.56,
+  "h": 143,
+  "issn": "2163-0755",
+  "updated": "2026-11-23"
+ },
+ "J Travel Med": {
+  "if": 4.3,
+  "h": 102,
+  "issn": "1195-1982",
+  "updated": "2026-11-23"
+ },
+ "J Vasc Surg Cases Innov Tech": {
+  "if": 1.09,
+  "h": 23,
+  "issn": "2468-4287",
+  "updated": "2026-11-23"
+ },
+ "J Vet Emerg Crit Care (San Antonio)": {
+  "if": 1.71,
+  "h": 88,
+  "issn": "1476-4431",
+  "updated": "2026-11-23"
+ },
+ "JACC Adv": {
+  "if": 3.7,
+  "h": 43,
+  "issn": "2772-963X",
+  "updated": "2026-11-23"
+ },
+ "JAMA Health Forum": {
+  "if": 5.99,
+  "h": 67,
+  "issn": "2689-0186",
+  "updated": "2026-11-23"
+ },
+ "JAMA Netw Open": {
+  "if": 10.78,
+  "h": 259,
+  "issn": "2574-3805",
+  "updated": "2026-11-23"
+ },
+ "JAMA Surg": {
+  "if": 6.12,
+  "h": 198,
+  "issn": "2168-6254",
+  "updated": "2026-11-23"
+ },
+ "JMIR Hum Factors": {
+  "if": 6.49,
+  "h": 65,
+  "issn": "2292-9495",
+  "updated": "2026-11-23"
+ },
+ "JMIR Med Educ": {
+  "if": 21.74,
+  "h": 75,
+  "issn": "2369-3762",
+  "updated": "2026-11-23"
+ },
+ "JMIR Perioper Med": {
+  "if": 3.86,
+  "h": 21,
+  "issn": "2561-9128",
+  "updated": "2026-11-23"
+ },
+ "JMIR Res Protoc": {
+  "if": 2.6,
+  "h": 70,
+  "issn": "1929-0748",
+  "updated": "2026-11-23"
+ },
+ "JOSPT Open": {
+  "if": 1.7,
+  "h": 9,
+  "issn": "2832-8280",
+  "updated": "2026-11-23"
+ },
+ "JSES Int": {
+  "if": 1.7,
+  "h": 35,
+  "issn": "2666-6383",
+  "updated": "2026-11-23"
+ },
+ "Kathmandu Univ Med J (KUMJ)": {
+  "if": 1.09,
+  "h": 47,
+  "issn": "1812-2027",
+  "updated": "2026-11-23"
+ },
+ "Khirurgiia (Mosk)": {
+  "if": 0.65,
+  "h": 22,
+  "issn": "0023-1207",
+  "updated": "2026-11-23"
+ },
+ "Lancet Reg Health Eur": {
+  "if": 12.2,
+  "h": 103,
+  "issn": "2666-7762",
+  "updated": "2026-11-23"
+ },
+ "Lit Med": {
+  "if": 0.12,
+  "h": 39,
+  "issn": "0278-9671",
+  "updated": "2026-11-23"
+ },
+ "Liver Int": {
+  "if": 5.35,
+  "h": 180,
+  "issn": "1478-3223",
+  "updated": "2026-11-23"
+ },
+ "Mar Environ Res": {
+  "if": 4.04,
+  "h": 153,
+  "issn": "0141-1136",
+  "updated": "2026-11-23"
+ },
+ "Med Acupunct": {
+  "if": 0.79,
+  "h": 36,
+  "issn": "1933-6586",
+  "updated": "2026-11-23"
+ },
+ "Med Clin North Am": {
+  "if": 3.28,
+  "h": 177,
+  "issn": "0025-7125",
+  "updated": "2026-11-23"
+ },
+ "Med J Armed Forces India": {
+  "if": 1.11,
+  "h": 77,
+  "issn": "0377-1237",
+  "updated": "2026-11-23"
+ },
+ "Med Klin Intensivmed Notfmed": {
+  "if": 1.98,
+  "h": 46,
+  "issn": "2193-6218",
+  "updated": "2026-11-23"
+ },
+ "Med Sci Monit": {
+  "if": 3.49,
+  "h": 113,
+  "issn": "1234-1010",
+  "updated": "2026-11-23"
+ },
+ "Med Sci Sports Exerc": {
+  "if": 0.44,
+  "h": 413,
+  "issn": "0195-9131",
+  "updated": "2026-11-23"
+ },
+ "MedEdPORTAL": {
+  "if": 2.3,
+  "h": 48,
+  "issn": "2374-8265",
+  "updated": "2026-11-23"
+ },
+ "Medicine (Baltimore)": {
+  "if": 2.99,
+  "h": 307,
+  "issn": "0025-7974",
+  "updated": "2026-11-23"
+ },
+ "Methodist Debakey Cardiovasc J": {
+  "if": 2.63,
+  "h": 54,
+  "issn": "1947-6108",
+  "updated": "2026-11-23"
+ },
+ "Molecules": {
+  "if": 6.54,
+  "h": 385,
+  "issn": "1420-3049",
+  "updated": "2026-11-23"
+ },
+ "Mutat Res Genet Toxicol Environ Mutagen": {
+  "if": 2.86,
+  "h": 160,
+  "issn": "1383-5718",
+  "updated": "2026-11-23"
+ },
+ "NASN Sch Nurse": {
+  "if": 1.32,
+  "h": 29,
+  "issn": "1942-602X",
+  "updated": "2026-11-23"
+ },
+ "Ned Tijdschr Geneeskd": {
+  "if": 0.0,
+  "h": 29,
+  "issn": "0028-2162",
+  "updated": "2026-11-23"
+ },
+ "Nephrol Nurs J": {
+  "if": 0.71,
+  "h": 19,
+  "issn": "1526-744X",
+  "updated": "2026-11-23"
+ },
+ "Neurol Sci": {
+  "if": 2.67,
+  "h": 123,
+  "issn": "1590-1874",
+  "updated": "2026-11-23"
+ },
+ "Neurooncol Pract": {
+  "if": 2.36,
+  "h": 50,
+  "issn": "2054-2577",
+  "updated": "2026-11-23"
+ },
+ "Neuropsychopharmacol Rep": {
+  "if": 2.34,
+  "h": 35,
+  "issn": "2574-173X",
+  "updated": "2026-11-23"
+ },
+ "Neurotrauma Rep": {
+  "if": 2.31,
+  "h": 25,
+  "issn": "2689-288X",
+  "updated": "2026-11-23"
+ },
+ "North Clin Istanb": {
+  "if": 1.62,
+  "h": 38,
+  "issn": "2536-4553",
+  "updated": "2026-11-23"
+ },
+ "Nurs Open": {
+  "if": 5.04,
+  "h": 91,
+  "issn": "2054-1058",
+  "updated": "2026-11-23"
+ },
+ "Ophthalmology": {
+  "if": 4.14,
+  "h": 396,
+  "issn": "0161-6420",
+  "updated": "2026-11-23"
+ },
+ "Orthop J Sports Med": {
+  "if": 1.92,
+  "h": 101,
+  "issn": "2325-9671",
+  "updated": "2026-11-23"
+ },
+ "Orthop Rev (Pavia)": {
+  "if": 2.71,
+  "h": 58,
+  "issn": "2035-8164",
+  "updated": "2026-11-23"
+ },
+ "Otolaryngol Head Neck Surg": {
+  "if": 2.96,
+  "h": 203,
+  "issn": "0194-5998",
+  "updated": "2026-11-23"
+ },
+ "PLOS Glob Public Health": {
+  "if": 4.37,
+  "h": 64,
+  "issn": "2767-3375",
+  "updated": "2026-11-23"
+ },
+ "PLoS One": {
+  "if": 4.33,
+  "h": 658,
+  "issn": "1932-6203",
+  "updated": "2026-11-23"
+ },
+ "PLoS Pathog": {
+  "if": 5.88,
+  "h": 342,
+  "issn": "1553-7366",
+  "updated": "2026-11-23"
+ },
+ "Pain Rep": {
+  "if": 5.23,
+  "h": 68,
+  "issn": "2471-2531",
+  "updated": "2026-11-23"
+ },
+ "Pak J Med Sci": {
+  "if": 2.25,
+  "h": 86,
+  "issn": "1681-715X",
+  "updated": "2026-11-23"
+ },
+ "Patient Prefer Adherence": {
+  "if": 3.84,
+  "h": 107,
+  "issn": "1177-889X",
+  "updated": "2026-11-23"
+ },
+ "Pediatr Emerg Care": {
+  "if": 1.31,
+  "h": 104,
+  "issn": "0749-5161",
+  "updated": "2026-11-23"
+ },
+ "Pediatr Qual Saf": {
+  "if": 1.25,
+  "h": 30,
+  "issn": "2472-0054",
+  "updated": "2026-11-23"
+ },
+ "Pediatr Radiol": {
+  "if": 2.52,
+  "h": 133,
+  "issn": "0301-0449",
+  "updated": "2026-11-23"
+ },
+ "Pediatrics": {
+  "if": 5.74,
+  "h": 571,
+  "issn": "0031-4005",
+  "updated": "2026-11-23"
+ },
+ "PeerJ": {
+  "if": 3.89,
+  "h": 186,
+  "issn": "2167-8359",
+  "updated": "2026-11-23"
+ },
+ "Perm J": {
+  "if": 5.22,
+  "h": 87,
+  "issn": "1552-5767",
+  "updated": "2026-11-23"
+ },
+ "Pharmacoepidemiol Drug Saf": {
+  "if": 2.37,
+  "h": 145,
+  "issn": "1053-8569",
+  "updated": "2026-11-23"
+ },
+ "Physiol Behav": {
+  "if": 3.2,
+  "h": 279,
+  "issn": "0031-9384",
+  "updated": "2026-11-23"
+ },
+ "Physiol Res": {
+  "if": 3.44,
+  "h": 104,
+  "issn": "0862-8408",
+  "updated": "2026-11-23"
+ },
+ "Plast Reconstr Surg Glob Open": {
+  "if": 1.28,
+  "h": 86,
+  "issn": "2169-7574",
+  "updated": "2026-11-23"
+ },
+ "Pol Przegl Chir": {
+  "if": 1.77,
+  "h": 32,
+  "issn": "0032-373X",
+  "updated": "2026-11-23"
+ },
+ "Postgrad Med": {
+  "if": 3.02,
+  "h": 109,
+  "issn": "0032-5481",
+  "updated": "2026-11-23"
+ },
+ "Prehosp Emerg Care": {
+  "if": 2.85,
+  "h": 104,
+  "issn": "1090-3127",
+  "updated": "2026-11-23"
+ },
+ "Psoriasis (Auckl)": {
+  "if": 4.37,
+  "h": 41,
+  "issn": "2230-326X",
+  "updated": "2026-11-23"
+ },
+ "Radiol Clin North Am": {
+  "if": 1.86,
+  "h": 129,
+  "issn": "0033-8389",
+  "updated": "2026-11-23"
+ },
+ "Resusc Plus": {
+  "if": 3.52,
+  "h": 36,
+  "issn": "2666-5204",
+  "updated": "2026-11-23"
+ },
+ "Resuscitation": {
+  "if": 2.0,
+  "h": 225,
+  "issn": "0300-9572",
+  "updated": "2026-11-23"
+ },
+ "Rev Bras Enferm": {
+  "if": 3.53,
+  "h": 132,
+  "issn": "0034-7167",
+  "updated": "2026-11-23"
+ },
+ "Rev Bras Med Trab": {
+  "if": 1.39,
+  "h": 46,
+  "issn": "1679-4435",
+  "updated": "2026-11-23"
+ },
+ "Rev Colomb Psiquiatr (Engl Ed)": {
+  "if": 1.34,
+  "h": 22,
+  "issn": "2530-3120",
+  "updated": "2026-11-23"
+ },
+ "Rev Esp Anestesiol Reanim (Engl Ed)": {
+  "if": 0.99,
+  "h": 24,
+  "issn": "2341-1929",
+  "updated": "2026-11-23"
+ },
+ "Rev Esp Salud Publica": {
+  "if": 0.0,
+  "h": 79,
+  "issn": "1135-5727",
+  "updated": "2026-11-23"
+ },
+ "Rev Med Liege": {
+  "if": 0.0,
+  "h": 20,
+  "issn": "0370-629X",
+  "updated": "2026-11-23"
+ },
+ "SAGE Open Nurs": {
+  "if": 5.66,
+  "h": 62,
+  "issn": "2377-9608",
+  "updated": "2026-11-23"
+ },
+ "SICOT J": {
+  "if": 3.69,
+  "h": 44,
+  "issn": "2426-8887",
+  "updated": "2026-11-23"
+ },
+ "Scand J Med Sci Sports": {
+  "if": 4.71,
+  "h": 221,
+  "issn": "0905-7188",
+  "updated": "2026-11-23"
+ },
+ "Scand J Trauma Resusc Emerg Med": {
+  "if": 4.53,
+  "h": 109,
+  "issn": "1757-7241",
+  "updated": "2026-11-23"
+ },
+ "Sensors (Basel)": {
+  "if": 6.78,
+  "h": 379,
+  "issn": "1424-8220",
+  "updated": "2026-11-23"
+ },
+ "Shock": {
+  "if": 2.77,
+  "h": 170,
+  "issn": "1073-2322",
+  "updated": "2026-11-23"
+ },
+ "Sleep Sci": {
+  "if": 0.7,
+  "h": 53,
+  "issn": "1984-0063",
+  "updated": "2026-11-23"
+ },
+ "Small": {
+  "if": 10.91,
+  "h": 365,
+  "issn": "1613-6810",
+  "updated": "2026-11-23"
+ },
+ "Soins Pediatr Pueric": {
+  "if": 0.31,
+  "h": 8,
+  "issn": "1259-4792",
+  "updated": "2026-11-23"
+ },
+ "South Afr J Crit Care": {
+  "if": 1.53,
+  "h": 23,
+  "issn": "1562-8264",
+  "updated": "2026-11-23"
+ },
+ "Subst Use Addctn J": {
+  "if": 2.41,
+  "h": 13,
+  "issn": "2976-7342",
+  "updated": "2026-11-23"
+ },
+ "Surg Clin North Am": {
+  "if": 2.53,
+  "h": 167,
+  "issn": "0039-6109",
+  "updated": "2026-11-23"
+ },
+ "Surgery": {
+  "if": 2.43,
+  "h": 225,
+  "issn": "0039-6060",
+  "updated": "2026-11-23"
+ },
+ "Technol Health Care": {
+  "if": 2.08,
+  "h": 71,
+  "issn": "0928-7329",
+  "updated": "2026-11-23"
+ },
+ "Top Spinal Cord Inj Rehabil": {
+  "if": 0.94,
+  "h": 61,
+  "issn": "1082-0744",
+  "updated": "2026-11-23"
+ },
+ "Transl Psychiatry": {
+  "if": 9.82,
+  "h": 195,
+  "issn": "2158-3188",
+  "updated": "2026-11-23"
+ },
+ "Trauma Surg Acute Care Open": {
+  "if": 2.33,
+  "h": 47,
+  "issn": "2397-5776",
+  "updated": "2026-11-23"
+ },
+ "Trauma Violence Abuse": {
+  "if": 10.43,
+  "h": 178,
+  "issn": "1524-8380",
+  "updated": "2026-11-23"
+ },
+ "Trials": {
+  "if": 2.9,
+  "h": 139,
+  "issn": "1745-6215",
+  "updated": "2026-11-23"
+ },
+ "Ugeskr Laeger": {
+  "if": 0.4,
+  "h": 8,
+  "issn": "0041-5782",
+  "updated": "2026-11-23"
+ },
+ "Updates Surg": {
+  "if": 2.74,
+  "h": 58,
+  "issn": "2038-131X",
+  "updated": "2026-11-23"
+ },
+ "Value Health": {
+  "if": 0.29,
+  "h": 183,
+  "issn": "1098-3015",
+  "updated": "2026-11-23"
+ },
+ "Vet Radiol Ultrasound": {
+  "if": 1.34,
+  "h": 98,
+  "issn": "1058-8183",
+  "updated": "2026-11-23"
+ },
+ "Video J Sports Med": {
+  "if": 0.42,
+  "h": 8,
+  "issn": "2635-0254",
+  "updated": "2026-11-23"
+ },
+ "West J Emerg Med": {
+  "if": 1.34,
+  "h": 90,
+  "issn": "1936-900X",
+  "updated": "2026-11-23"
+ },
+ "Womens Health Issues": {
+  "if": 2.54,
+  "h": 105,
+  "issn": "1049-3867",
+  "updated": "2026-11-23"
+ },
+ "World J Emerg Med": {
+  "if": 1.84,
+  "h": 50,
+  "issn": "1920-8642",
+  "updated": "2026-11-23"
+ },
+ "World J Emerg Surg": {
+  "if": 12.16,
+  "h": 113,
+  "issn": "1749-7922",
+  "updated": "2026-11-23"
+ },
+ "World J Pediatr Surg": {
+  "if": 2.51,
+  "h": 19,
+  "issn": "2516-5410",
+  "updated": "2026-11-23"
+ },
+ "Zhonghua Wei Zhong Bing Ji Jiu Yi Xue": {
+  "if": 0.0,
+  "h": 11,
+  "issn": "2095-4352",
+  "updated": "2026-11-23"
+ },
+ "Zool Stud": {
+  "if": 0.0,
+  "h": 55,
+  "issn": "1021-5506",
+  "updated": "2026-11-23"
+ }
+}
