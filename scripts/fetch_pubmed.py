@@ -43,7 +43,7 @@ OPENALEX_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
 OPENALEX = "https://api.openalex.org/sources"
 METRICS = DATA / "journal_metrics.json"
 TOOL = "em-weekly"
-DELAY = 0.12 if API_KEY else 0.4  # NCBI: 10 req/s with key, 3 req/s without
+DELAY = 0.15 if API_KEY else 0.5  # NCBI: 10 req/s with key, 3 req/s without
 TZ = dt.timezone(dt.timedelta(hours=8))  # Asia/Taipei
 
 # --------------------------------------------------------------------------
@@ -271,7 +271,7 @@ REVIEW_TITLE = re.compile(
 # --------------------------------------------------------------------------
 # HTTP
 # --------------------------------------------------------------------------
-def _post(endpoint: str, params: dict, retries: int = 4) -> bytes:
+def _post(endpoint: str, params: dict, retries: int = 6) -> bytes:
     params = dict(params, tool=TOOL)
     if API_KEY:
         params["api_key"] = API_KEY
@@ -285,8 +285,10 @@ def _post(endpoint: str, params: dict, retries: int = 4) -> bytes:
             req = urllib.request.Request(url, data=body, headers={"User-Agent": TOOL})
             with urllib.request.urlopen(req, timeout=90) as r:
                 return r.read()
-        except (urllib.error.URLError, TimeoutError) as e:
-            wait = 2 ** (attempt + 1)
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+            wait = 5 * 2 ** attempt                      # 5, 10, 20, 40, 80, 160 秒
+            if isinstance(e, urllib.error.HTTPError) and e.headers.get("Retry-After", "").isdigit():
+                wait = max(wait, int(e.headers["Retry-After"]))
             print(f"  ! {endpoint} failed ({e}); retry in {wait}s", file=sys.stderr)
             time.sleep(wait)
     raise RuntimeError(f"{endpoint} failed after {retries} retries")
@@ -480,8 +482,10 @@ def backfill_metrics() -> None:
             continue
     if not sample:
         return
-    print(f"Backfilling ISSN for {len(sample)} journals from earlier weeks…")
-    recs = [r for r in (parse(el) for el in efetch(list(sample.values()))) if r]
+    # 每次最多補 400 個期刊，避免一次送出過多請求
+    pmids = list(sample.values())[:400]
+    print(f"Backfilling ISSN for {len(pmids)} of {len(sample)} journals from earlier weeks…")
+    recs = [r for r in (parse(el) for el in efetch(pmids)) if r]
     update_journal_metrics(recs)
 
 
@@ -626,7 +630,7 @@ def main() -> None:
         return
 
     if args.backfill:
-        t0, ok, done = time.time(), True, 0
+        t0, ok, done, fails = time.time(), True, 0, 0
         for k in range(0, args.backfill + 1):
             monday = this_monday - dt.timedelta(weeks=k)
             f = WEEKS / f"{monday.isoformat()}.json"
@@ -639,24 +643,37 @@ def main() -> None:
             try:
                 run_week(monday)
                 done += 1
+                fails = 0
                 if done in (1, 5) or done % 13 == 0:      # 先讓 7 天／30 天盡快可用，之後每 13 週發布一次
                     checkpoint(f"Backfill progress: back to {monday.isoformat()}")
             except Exception as e:      # 單週失敗不中斷，下次再補
                 print(f"  ! week {monday} failed: {e}", file=sys.stderr)
                 ok = False
+                fails += 1
+                if fails >= 3:   # 連續失敗多半是被 PubMed 限流 → 先停，稍後自動接續
+                    print("Too many consecutive failures (likely rate-limited); will resume next run.")
+                    break
             if time.time() - t0 > 5 * 3600:   # GitHub Actions 單次上限 6 小時
                 print("Time budget reached; remaining weeks next run.")
                 ok = False
                 break
-        if ok:
+        if ok and all(
+            (WEEKS / f"{(this_monday - dt.timedelta(weeks=k)).isoformat()}.json").exists()
+            for k in range(args.backfill + 1)
+        ):
             (DATA / "backfill_done.txt").write_text(
                 f"{args.backfill} weeks backfilled at {dt.datetime.now(TZ).isoformat()}\n", encoding="utf-8")
     else:
         run_week(this_monday, args.start, args.end, args.label)
 
-    # 本次新文章的期刊指標 + 舊週次缺的期刊
-    backfill_metrics()
+    # 本次新文章的期刊指標 + 舊週次缺的期刊（失敗不影響文章資料）
+    try:
+        backfill_metrics()
+    except Exception as e:
+        print(f"  ! metrics step failed ({e}); skipped this time", file=sys.stderr)
     rebuild_outputs()
+    if args.backfill and not (DATA / "backfill_done.txt").exists():
+        sys.exit(0)   # 補抓未完成屬正常狀態，不標示為失敗；排程會自動接續
 
 
 if __name__ == "__main__":
