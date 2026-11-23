@@ -473,6 +473,13 @@ async function loadWeek(week){
 
 async function loadRange(key){
   const idx = state.index;
+  if (key !== "7" && !idx.ranges?.[key]){
+    state.mode = key; syncControls(); state.weekData = null;
+    $("#status").textContent = "";
+    ["vTotal","v-article","v-review","v-meta","v-guideline"].forEach(id => $("#"+id).textContent = "--");
+    $("#list").innerHTML = `<div class="empty">⏳ 此區間的資料還在準備中<br><br>GitHub 正在自動補抓過去 2 年的文獻（約 20–60 分鐘），<br>進度會分批更新，請稍後重新整理。<br><br><a href="#7" onclick="loadRange('7');return false">← 回到近 7 天</a></div>`;
+    return;
+  }
   if (key === "7"){                       // 7 天 = 最新一週（含摘要）
     await loadWeek(idx.weeks[0].week); state.mode = "7"; syncControls(); render(); return;
   }
@@ -569,9 +576,6 @@ async function init(){
   state.index = index;
   $("#week").innerHTML = `<option value="">—</option>` + index.weeks.map(w =>
     `<option value="${esc(w.week)}">${esc(w.week)} 週（${w.count} 篇）</option>`).join("");
-  document.querySelectorAll("#ranges button").forEach(b => {
-    if (b.dataset.range !== "7" && !index.ranges?.[b.dataset.range]){ b.disabled = true; b.title = "資料準備中"; }
-  });
   const h = decodeURIComponent(location.hash.slice(1));
   if (index.weeks.some(w => w.week === h)) await loadWeek(h);
   else if (index.ranges?.[h]) await loadRange(h);
