@@ -45,20 +45,25 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Git identity
+        if: steps.check.outputs.run == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Fetch PubMed
         if: steps.check.outputs.run == 'true'
         env:
           NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
           NCBI_EMAIL: ${{ secrets.NCBI_EMAIL }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+          GIT_CHECKPOINT: "1"
         run: python -u scripts/fetch_pubmed.py ${{ steps.check.outputs.args }}
 
       - name: Commit data
         # 即使中途失敗也保存已抓到的部分，下次自動接續
         if: always() && steps.check.outputs.run == 'true'
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data
           git diff --staged --quiet && exit 0
           git commit -m "Data update $(TZ=Asia/Taipei date '+%F %H:%M')"
