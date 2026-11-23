@@ -5,7 +5,7 @@ on:
     # 每週一 05:37（台北時間）= 週日 21:37 UTC
     # 刻意避開整點：GitHub 整點排程最擁擠，常延遲甚至被略過
     - cron: "37 21 * * 0"
-  # 第一次上傳檔案到 main 時自動執行（之後只在還沒有資料時才抓取）
+  # 上傳檔案到 main 時自動檢查：缺資料就自動補抓，不需手動執行
   push:
     branches: [main]
   workflow_dispatch:        # 備用：可在 Actions 分頁手動執行
@@ -20,21 +20,25 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 340
     steps:
       - uses: actions/checkout@v4
 
-      - name: Need to fetch?
+      - name: Decide what to do
         id: check
         run: |
-          if [ "${{ github.event_name }}" != "push" ] || ! ls data/weeks/*.json >/dev/null 2>&1; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          elif [ ! -f data/journal_metrics.json ]; then
-            # 已有文章但還沒有影響係數 → 只補抓指標
-            echo "run=true" >> "$GITHUB_OUTPUT"
-            echo "args=--metrics-only" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=false" >> "$GITHUB_OUTPUT"
+          RUN=true; ARGS=""
+          if [ ! -f data/backfill_done.txt ]; then
+            # 第一次：自動補抓過去 2 年（104 週），已存在的週次會略過
+            ARGS="--backfill 104"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            if [ ! -f data/journal_metrics.json ]; then ARGS="--metrics-only"
+            elif [ ! -f data/range/730.json ]; then ARGS="--rebuild-only"
+            else RUN=false; fi
           fi
+          echo "run=$RUN"   >> "$GITHUB_OUTPUT"
+          echo "args=$ARGS" >> "$GITHUB_OUTPUT"
+          echo "→ run=$RUN args=$ARGS"
 
       - uses: actions/setup-python@v5
         if: steps.check.outputs.run == 'true'
@@ -47,13 +51,16 @@ jobs:
           NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
           NCBI_EMAIL: ${{ secrets.NCBI_EMAIL }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
-        run: python scripts/fetch_pubmed.py ${{ steps.check.outputs.args }}
+        run: python -u scripts/fetch_pubmed.py ${{ steps.check.outputs.args }}
 
       - name: Commit data
-        if: steps.check.outputs.run == 'true'
+        # 即使中途失敗也保存已抓到的部分，下次自動接續
+        if: always() && steps.check.outputs.run == 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data
-          git diff --staged --quiet || git commit -m "Weekly update $(TZ=Asia/Taipei date +%F)"
+          git diff --staged --quiet && exit 0
+          git commit -m "Data update $(TZ=Asia/Taipei date '+%F %H:%M')"
+          git pull --rebase --autostash
           git push
