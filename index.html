@@ -107,6 +107,13 @@ details .abs p{margin:0 0 6px}
 .sec-empty{color:var(--muted);font-size:.85rem;padding:6px 4px 0}
 .sec-more{display:block;width:100%;padding:10px;border:1px dashed var(--c);border-radius:8px;background:transparent;color:var(--ink);cursor:pointer;font:inherit;font-size:.9rem}
 .sec-more:hover{background:var(--chip)}
+.sec-actions{display:flex;gap:8px}.sec-actions .sec-more{flex:1}
+.ranges{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px}
+.ranges button{padding:8px 0;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:6px;cursor:pointer;font:inherit;font-size:.88rem;font-weight:600}
+.ranges button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.ranges button:disabled{opacity:.4;cursor:not-allowed}
+.range-note{font-size:.78rem;color:var(--muted);margin:6px 0 0}
+.sublabel{font-size:.78rem;color:var(--muted);margin:2px 0 4px}
 .sec.article{--c:var(--article)}.sec.review{--c:var(--review)}.sec.meta{--c:var(--meta)}.sec.guideline{--c:var(--guideline)}
 @media (prefers-color-scheme:dark){.sec-hd{background:#0b1218}}
 mark{background:#ffe082;color:inherit;padding:0 1px}
@@ -157,8 +164,16 @@ footer a{color:var(--muted)}
     <button class="toggle-filters" id="toggleFilters">篩選條件 ▾</button>
 
     <div class="panel">
-      <h2>週次</h2>
-      <select id="week"></select>
+      <h2>時間範圍</h2>
+      <div class="ranges" id="ranges">
+        <button data-range="7">7天</button>
+        <button data-range="30">30天</button>
+        <button data-range="365">1年</button>
+        <button data-range="730">2年</button>
+      </div>
+      <div class="sublabel">或選擇特定週次</div>
+      <select id="week"><option value="">—</option></select>
+      <p class="range-note" id="rangeNote"></p>
     </div>
 
     <div class="panel">
@@ -209,6 +224,7 @@ footer a{color:var(--muted)}
     <ul>
       <li>來源：<b>PubMed</b>（NCBI E-utilities），每週一 05:37（台北時間）自動執行。</li>
       <li>收錄範圍：執行日前 7 天（上週一至週日）<b>新收錄進 PubMed</b> 的文章（以 Entrez date 為準，不是出版日期），因此線上搶先版（Epub ahead of print）也會收錄。</li>
+      <li>時間範圍：可選 <b>7 天</b>（最新一週）、<b>30 天</b>、<b>1 年</b>、<b>2 年</b>（由每週資料彙整，以收錄週次計算），或指定任一週次。首次啟用時會自動往回補抓 2 年資料。長區間清單不含摘要，點「摘要」時才載入。</li>
       <li>排除：Letter、Editorial、Comment、News、Interview、Biography、Congress、Preprint、勘誤（Erratum／Correction）、撤稿（Retraction）、Expression of concern、作者回覆（Reply）。</li>
     </ul>
 
@@ -292,7 +308,8 @@ const ICON = {general:"🏥",critical:"🫀",pediatric:"🧸",ems:"🚑",toxicol
 const STORE = "emweekly-filters-v2";
 
 const $ = s => document.querySelector(s);
-const state = {cats:[], weekData:null, open:new Set(), ifmap:{}};
+const state = {cats:[], weekData:null, open:new Set(), limit:{}, ifmap:{}, index:null, mode:"7", weekCache:{}};
+const STEP = 100;   // 展開後每次顯示篇數
 let saved = {};
 try { saved = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch(e) {}
 
@@ -351,13 +368,21 @@ function ifHTML(j){
   return `<span class="if ${cls}${m.official ? " official" : ""}" title="${tip}">${m.official ? "JIF" : "IF≈"} ${m.v.toFixed(1)}</span>`;
 }
 
+function absHTML(parts, terms){
+  return parts.map(p => `<p>${p.label ? `<b>${esc(p.label)}：</b>` : ""}${highlight(p.text, terms)}</p>`).join("") || "<p>（無摘要）</p>";
+}
+async function getWeek(w){
+  if (!state.weekCache[w]) state.weekCache[w] = fetch(`data/weeks/${w}.json`).then(r => r.json());
+  return state.weekCache[w];
+}
+
 function cardHTML(a, terms, catName){
   const t = TYPES.find(t => t.id === a.type);
-  const au = a.authors.length > 6 ? a.authors.slice(0,6).join(", ") + ", et al." : a.authors.join(", ");
-  const abs = a.abstract.length
-    ? `<details><summary>摘要</summary><div class="abs">${a.abstract.map(p =>
-        `<p>${p.label ? `<b>${esc(p.label)}：</b>` : ""}${highlight(p.text, terms)}</p>`).join("")}</div></details>`
-    : "";
+  const authors = a.authors || (a.au ? [a.au] : []);
+  const au = authors.length > 6 ? authors.slice(0,6).join(", ") + ", et al." : authors.join(", ");
+  const abs = a.abstract
+    ? (a.abstract.length ? `<details><summary>摘要</summary><div class="abs">${absHTML(a.abstract, terms)}</div></details>` : "")
+    : (a.w ? `<details class="lazy" data-pmid="${esc(a.pmid)}" data-week="${esc(a.w)}"><summary>摘要</summary><div class="abs">載入中…</div></details>` : "");
   return `<article class="card ${a.type}">
     <span class="badge ${a.type}">${t.short}</span>
     <h3><a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">${highlight(a.title, terms)}</a></h3>
@@ -384,7 +409,7 @@ function render(){
   if (terms.length){
     rows = rows.filter(a => {
       const hay = [a.title, a.journal, a.journal_full, a.authors.join(" "),
-                   a.abstract.map(p => p.text).join(" ")].join(" ").toLowerCase();
+                   (a.abstract || []).map(p => p.text).join(" ")].join(" ").toLowerCase();
       return terms.every(t => hay.includes(t));
     });
   }
@@ -401,7 +426,8 @@ function render(){
   TYPES.forEach(t => $("#v-" + t.id).textContent = types.has(t.id) ? groups[t.id].length : "–");
 
   const w = state.weekData;
-  status.textContent = w ? `${w.range[0]} ～ ${w.range[1]} 收錄 · 顯示 ${rows.length} / ${arts.length} 篇` : "";
+  const label = {"7":"近 7 天","30":"近 30 天","365":"近 1 年","730":"近 2 年","week":"指定週次"}[state.mode];
+  status.textContent = w ? `${label}：${w.range[0]} ～ ${w.range[1]} 收錄 · 顯示 ${rows.length} / ${arts.length} 篇` : "";
 
   if (!cats.size || !types.size){
     list.innerHTML = `<div class="empty">${!cats.size ? "請至少選擇一個次專科" : "請至少選擇一種文章類型"}</div>`;
@@ -410,10 +436,15 @@ function render(){
 
   list.innerHTML = TYPES.filter(t => types.has(t.id)).map(t => {
     const g = groups[t.id], n = g.length, open = state.open.has(t.id);
-    const shown = open ? g : g.slice(0, PREVIEW);
-    const more = n > PREVIEW
-      ? `<button class="sec-more" data-sec="${t.id}">${open ? "收合 ▴" : `顯示全部 ${n} 篇（還有 ${n - PREVIEW} 篇）▾`}</button>`
-      : "";
+    const lim = open ? (state.limit[t.id] || STEP) : PREVIEW;
+    const shown = g.slice(0, lim);
+    let more = "";
+    if (n > PREVIEW){
+      if (!open) more = `<button class="sec-more" data-sec="${t.id}">顯示全部 ${n} 篇（還有 ${n - PREVIEW} 篇）▾</button>`;
+      else more = `<div class="sec-actions">${n > lim
+        ? `<button class="sec-more" data-more="${t.id}">再顯示 ${Math.min(STEP, n - lim)} 篇（已顯示 ${lim} / ${n}）</button>` : ""}
+        <button class="sec-more" data-sec="${t.id}">收合 ▴</button></div>`;
+    }
     return `<section class="sec ${t.id}${open ? " open" : ""}" id="sec-${t.id}">
       <button class="sec-hd" data-sec="${t.id}" aria-expanded="${open}">
         <span class="ico">${ICON[t.id]}</span>
@@ -422,24 +453,49 @@ function render(){
         ${n > PREVIEW ? `<span class="sec-arrow">▾</span>` : ""}
       </button>
       <div class="sec-body">${shown.map(a => cardHTML(a, terms, catName)).join("")}</div>
-      ${n ? more : `<div class="sec-empty">本週無符合條件的文章</div>`}
+      ${n ? more : `<div class="sec-empty">此區間無符合條件的文章</div>`}
     </section>`;
   }).join("");
 }
 
+function setData(d){
+  d.articles.forEach(a => a.type = normType(a));
+  state.weekData = d; state.open.clear(); state.limit = {};
+}
+
 async function loadWeek(week){
+  state.mode = "week"; syncControls(week);
   $("#status").textContent = "載入中…";
-  try {
-    const r = await fetch(`data/weeks/${week}.json`, {cache:"no-cache"});
-    state.weekData = await r.json();
-    state.weekData.articles.forEach(a => a.type = normType(a));
-    state.open.clear();
-  } catch(e){
-    state.weekData = null;
-    $("#list").innerHTML = `<div class="empty">無法載入 ${esc(week)} 的資料</div>`;
-    return;
-  }
+  try { setData(await getWeek(week)); }
+  catch(e){ state.weekData = null; $("#list").innerHTML = `<div class="empty">無法載入 ${esc(week)} 的資料</div>`; return; }
   render();
+}
+
+async function loadRange(key){
+  const idx = state.index;
+  if (key === "7"){                       // 7 天 = 最新一週（含摘要）
+    await loadWeek(idx.weeks[0].week); state.mode = "7"; syncControls(); render(); return;
+  }
+  state.mode = key; syncControls();
+  $("#status").textContent = "載入中…（資料量較大，請稍候）";
+  $("#list").innerHTML = "";
+  try {
+    const r = await fetch(`data/range/${key}.json`, {cache:"no-cache"});
+    if (!r.ok) throw 0;
+    setData(await r.json());
+  } catch(e){ state.weekData = null; $("#list").innerHTML = `<div class="empty">此區間資料準備中，請稍後再試</div>`; return; }
+  render();
+}
+
+function syncControls(week){
+  document.querySelectorAll("#ranges button").forEach(b => b.classList.toggle("on", b.dataset.range === state.mode));
+  $("#week").value = state.mode === "week" ? (week || "") : "";
+  const info = state.index?.ranges?.[state.mode];
+  $("#rangeNote").textContent = info && !info.complete
+    ? `⏳ 歷史資料補抓中，目前涵蓋 ${info.range[0]} 起` : "";
+  $("#q").placeholder = ["30","365","730"].includes(state.mode)
+    ? "搜尋標題、期刊、作者…（長區間不含摘要）" : "搜尋標題、摘要、期刊、作者…";
+  history.replaceState(null, "", "#" + (state.mode === "week" ? week : state.mode));
 }
 
 // 以台北時間 (UTC+8) 顯示
@@ -510,11 +566,16 @@ async function init(){
     $("#list").innerHTML = `<div class="empty">尚無資料。<br>首次抓取約需 3–5 分鐘，請稍後重新整理。<br>若超過 10 分鐘仍無資料，請確認 repo 內有 <code>.github/workflows/weekly.yml</code>，並查看 Actions 分頁是否有錯誤。</div>`;
     return;
   }
-  $("#week").innerHTML = index.weeks.map(w =>
+  state.index = index;
+  $("#week").innerHTML = `<option value="">—</option>` + index.weeks.map(w =>
     `<option value="${esc(w.week)}">${esc(w.week)} 週（${w.count} 篇）</option>`).join("");
-  const fromHash = decodeURIComponent(location.hash.slice(1));
-  if (index.weeks.some(w => w.week === fromHash)) $("#week").value = fromHash;
-  await loadWeek($("#week").value);
+  document.querySelectorAll("#ranges button").forEach(b => {
+    if (b.dataset.range !== "7" && !index.ranges?.[b.dataset.range]){ b.disabled = true; b.title = "資料準備中"; }
+  });
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (index.weeks.some(w => w.week === h)) await loadWeek(h);
+  else if (index.ranges?.[h]) await loadRange(h);
+  else await loadRange("7");
 }
 
 
@@ -527,15 +588,30 @@ document.querySelectorAll("[data-all],[data-none]").forEach(b => b.addEventListe
   document.querySelectorAll(`input[data-group="${g}"]`).forEach(i => i.checked = on);
   render();
 }));
-$("#week").addEventListener("change", e => { location.hash = e.target.value; loadWeek(e.target.value); });
+$("#week").addEventListener("change", e => { e.target.value ? loadWeek(e.target.value) : loadRange("7"); });
+document.querySelectorAll("#ranges button").forEach(b => b.addEventListener("click", () => loadRange(b.dataset.range)));
+// 長區間的摘要：展開時才載入
+document.addEventListener("toggle", async e => {
+  const d = e.target;
+  if (!d.matches?.("details.lazy") || !d.open || d.dataset.loaded) return;
+  d.dataset.loaded = 1;
+  try {
+    const w = await getWeek(d.dataset.week);
+    const a = w.articles.find(x => x.pmid === d.dataset.pmid);
+    const terms = $("#q").value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    d.querySelector(".abs").innerHTML = absHTML(a?.abstract || [], terms);
+  } catch(err){ d.querySelector(".abs").textContent = "摘要載入失敗"; delete d.dataset.loaded; }
+}, true);
 $("#sort").addEventListener("change", () => render());
 let qTimer; $("#q").addEventListener("input", () => { clearTimeout(qTimer); qTimer = setTimeout(render, 200); });
 $("#list").addEventListener("click", e => {
+  const m = e.target.closest("[data-more]");
+  if (m){ const id = m.dataset.more; state.limit[id] = (state.limit[id] || STEP) + STEP; render(); return; }
   const b = e.target.closest("[data-sec]"); if (!b) return;
   const id = b.dataset.sec;
   const wasOpen = state.open.has(id);
   if (!wasOpen && !b.parentElement.querySelector(".sec-more")) return; // 篇數 ≤ 預覽數，不需展開
-  wasOpen ? state.open.delete(id) : state.open.add(id);
+  wasOpen ? (state.open.delete(id), delete state.limit[id]) : state.open.add(id);
   render();
   if (wasOpen) document.getElementById("sec-" + id).scrollIntoView({behavior:"smooth", block:"start"});
 });
