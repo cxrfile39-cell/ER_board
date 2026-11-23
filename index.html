@@ -73,6 +73,10 @@ select,input[type=search]{width:100%;padding:8px;border:1px solid var(--line);bo
 .card h3 a:hover{color:var(--accent);text-decoration:underline}
 .meta{color:var(--muted);font-size:.84rem}
 .meta b{color:var(--ink);font-weight:600}
+.if{display:inline-block;margin-left:6px;padding:0 6px;border-radius:4px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.74rem;font-weight:700;vertical-align:1px;border:1px solid var(--line);color:var(--muted);cursor:help}
+.if.hi{background:#fff3e0;color:#e65100;border-color:#ffcc80}.if.top{background:#ffebee;color:#c62828;border-color:#ef9a9a}
+.if.official{border-style:solid;border-width:1.5px}
+@media (prefers-color-scheme:dark){.if.hi{background:#3a2a14;color:#ffb74d;border-color:#6d4c1f}.if.top{background:#3a1c1c;color:#ff8a80;border-color:#7a2e2e}}
 .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.04em;color:#fff;text-transform:uppercase}
 .badge.review{color:#1c1c1c}.badge.meta{background:var(--meta)}
 .badge.article{background:var(--article)}.badge.review{background:var(--review)}.badge.guideline{background:var(--guideline)}
@@ -181,6 +185,7 @@ footer a{color:var(--muted)}
       <input type="search" id="q" placeholder="搜尋標題、摘要、期刊、作者…">
       <select id="sort">
         <option value="date">日期（新→舊）</option>
+        <option value="if">影響係數 IF（高→低）</option>
         <option value="journal">期刊名稱</option>
       </select>
     </div>
@@ -243,7 +248,15 @@ footer a{color:var(--muted)}
       <li>🔬 <b>Original Article</b>：以上皆不符合的其餘文章（包含臨床試驗、世代研究、病例報告等）。</li>
     </ul>
 
-    <h3>4. 限制</h3>
+    <h3>4. 期刊影響係數（IF）</h3>
+    <ul>
+      <li><b>IF≈</b>：自動取自 <a href="https://openalex.org/" target="_blank" rel="noopener">OpenAlex</a> 的「2-year mean citedness」（期刊前兩年文章在當年的平均被引用次數），計算方式與 IF 相近，每週隨資料更新。</li>
+      <li>此為<b>近似值，並非 Clarivate 官方 Journal Impact Factor</b>；因引用資料來源不同，數值通常與官方 JIF 有落差。</li>
+      <li><b>JIF</b>：若在 <code>data/jif.json</code> 手動填入官方 JIF，網頁會優先顯示並標示為 JIF。</li>
+      <li>顏色：≥10 紅色、≥4 橘色。排序可選「影響係數 IF（高→低）」，在各區塊內依 IF 排序。</li>
+    </ul>
+
+    <h3>5. 限制</h3>
     <ul>
       <li>分類為關鍵字自動判定，可能有少數誤分或遺漏（例如標題未明示類型的綜論、或僅順帶提到急診的文章）。</li>
       <li>PubMed 收錄時間可能晚於期刊線上刊出時間數天。</li>
@@ -279,7 +292,7 @@ const ICON = {general:"🏥",critical:"🫀",pediatric:"🧸",ems:"🚑",toxicol
 const STORE = "emweekly-filters-v2";
 
 const $ = s => document.querySelector(s);
-const state = {cats:[], weekData:null, open:new Set()};
+const state = {cats:[], weekData:null, open:new Set(), ifmap:{}};
 let saved = {};
 try { saved = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch(e) {}
 
@@ -328,6 +341,16 @@ function highlight(text, terms){
   return h;
 }
 
+function getIF(j){ return state.ifmap[j] || null; }
+function ifHTML(j){
+  const m = getIF(j); if (!m) return "";
+  const cls = m.v >= 10 ? "top" : m.v >= 4 ? "hi" : "";
+  const tip = m.official
+    ? "Journal Impact Factor（Clarivate，手動輸入）"
+    : `OpenAlex 2-year mean citedness（近似 IF，非 Clarivate 官方 JIF）${m.date ? "，" + m.date + " 更新" : ""}`;
+  return `<span class="if ${cls}${m.official ? " official" : ""}" title="${tip}">${m.official ? "JIF" : "IF≈"} ${m.v.toFixed(1)}</span>`;
+}
+
 function cardHTML(a, terms, catName){
   const t = TYPES.find(t => t.id === a.type);
   const au = a.authors.length > 6 ? a.authors.slice(0,6).join(", ") + ", et al." : a.authors.join(", ");
@@ -338,7 +361,7 @@ function cardHTML(a, terms, catName){
   return `<article class="card ${a.type}">
     <span class="badge ${a.type}">${t.short}</span>
     <h3><a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">${highlight(a.title, terms)}</a></h3>
-    <div class="meta"><b>${esc(a.journal)}</b> · ${esc(a.date)}${au ? " · " + esc(au) : ""}</div>
+    <div class="meta"><b>${esc(a.journal)}</b>${ifHTML(a.journal)} · ${esc(a.date)}${au ? " · " + esc(au) : ""}</div>
     <div class="chips">${a.cats.map(c => `<span class="chip">${ICON[c] || ""} ${esc(catName[c] || c)}</span>`).join("")}</div>
     <div class="links">
       <a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">PubMed</a>
@@ -366,9 +389,11 @@ function render(){
     });
   }
   const sort = $("#sort").value;
-  rows.sort((x,y) => sort === "journal"
-    ? x.journal.localeCompare(y.journal) || y.date.localeCompare(x.date)
-    : y.date.localeCompare(x.date));
+  const ifv = a => getIF(a.journal)?.v ?? -1;
+  rows.sort((x,y) =>
+    sort === "journal" ? x.journal.localeCompare(y.journal) || y.date.localeCompare(x.date) :
+    sort === "if" ? ifv(y) - ifv(x) || y.date.localeCompare(x.date) :
+    y.date.localeCompare(x.date));
 
   const groups = Object.fromEntries(TYPES.map(t => [t.id, []]));
   rows.forEach(a => groups[a.type].push(a));
@@ -458,6 +483,13 @@ function drawECG(){
   path.animate([{strokeDashoffset: len}, {strokeDashoffset: 0}], {duration: 6000, iterations: Infinity});
 }
 
+async function loadIF(){
+  const get = async f => { try { const r = await fetch(f, {cache:"no-cache"}); return r.ok ? await r.json() : {}; } catch(e){ return {}; } };
+  const [oa, jif] = await Promise.all([get("data/journal_metrics.json"), get("data/jif.json")]);
+  for (const [j, m] of Object.entries(oa)) if (typeof m?.if === "number") state.ifmap[j] = {v:m.if, official:false, date:m.updated};
+  for (const [j, v] of Object.entries(jif)) if (!j.startsWith("_") && typeof v === "number") state.ifmap[j] = {v, official:true};
+}
+
 async function init(){
   drawECG();
   let index;
@@ -467,6 +499,7 @@ async function init(){
   } catch(e){ index = null; }
 
   state.cats = index?.categories || [];
+  await loadIF();
   buildOptions($("#types"), TYPES, "type");
   buildOptions($("#cats"), state.cats, "cat");
   if (saved.sort) $("#sort").value = saved.sort;
