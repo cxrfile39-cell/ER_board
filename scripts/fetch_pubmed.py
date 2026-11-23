@@ -484,34 +484,18 @@ def backfill_metrics() -> None:
     update_journal_metrics(recs)
 
 
-def main() -> None:
-    today = dt.datetime.now(TZ).date()
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--start", help="YYYY/MM/DD（含）")
-    ap.add_argument("--end", help="YYYY/MM/DD（含）")
-    ap.add_argument("--label", help="週次標籤 YYYY-MM-DD（預設：執行當週的週一）")
-    ap.add_argument("--metrics-only", action="store_true", help="只補抓期刊影響係數")
-    args = ap.parse_args()
-    if args.metrics_only:
-        backfill_metrics()
-        return
+RANGES = {"30": 30, "365": 365, "730": 730}   # 網頁可選的區間（天）
+RANGE_DIR = DATA / "range"
 
-    monday = today - dt.timedelta(days=today.weekday())
-    start = args.start or (today - dt.timedelta(days=7)).strftime("%Y/%m/%d")
-    end = args.end or (today - dt.timedelta(days=1)).strftime("%Y/%m/%d")
-    label = args.label or monday.isoformat()
-    print(f"Week {label}: PubMed entry date {start} – {end}")
 
+def fetch_week(start: str, end: str) -> list[dict]:
     hits: dict[str, list[str]] = {}
-    counts = {}
     for cat in CATEGORIES:
-        ids = esearch(cat["query"], start, end)
-        counts[cat["id"]] = len(ids)
+        ids = esearch(cat["query"], start, end, retmax=9999)
         print(f"  {cat['name']:<36} {len(ids):>5}")
         for pmid in ids:
             hits.setdefault(pmid, []).append(cat["id"])
-
-    print(f"Fetching {len(hits)} unique records…")
+    print(f"  Fetching {len(hits)} unique records…")
     order = [c["id"] for c in CATEGORIES]
     articles = []
     for el in efetch(list(hits)):
@@ -520,10 +504,10 @@ def main() -> None:
             rec["cats"] = sorted(hits[rec["pmid"]], key=order.index)
             articles.append(rec)
     articles.sort(key=lambda a: (a["date"], a["pmid"]), reverse=True)
+    return articles
 
-    update_journal_metrics(articles)
-    backfill_metrics()
 
+def save_week(label: str, start: str, end: str, articles: list[dict]) -> None:
     WEEKS.mkdir(parents=True, exist_ok=True)
     week = {
         "week": label,
@@ -534,23 +518,124 @@ def main() -> None:
     }
     (WEEKS / f"{label}.json").write_text(
         json.dumps(week, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"  Saved {len(articles)} articles → data/weeks/{label}.json")
 
-    # 重建 index.json
+
+def run_week(monday: dt.date, start: str | None = None, end: str | None = None,
+             label: str | None = None) -> list[dict]:
+    """抓取「monday 前 7 天」（上週一～週日）新收錄的文章。"""
+    start = start or (monday - dt.timedelta(days=7)).strftime("%Y/%m/%d")
+    end = end or (monday - dt.timedelta(days=1)).strftime("%Y/%m/%d")
+    label = label or monday.isoformat()
+    print(f"Week {label}: PubMed entry date {start} – {end}")
+    arts = fetch_week(start, end)
+    save_week(label, start, end, arts)
+    return arts
+
+
+def load_weeks() -> list[dict]:
     weeks = []
     for f in sorted(WEEKS.glob("*.json"), reverse=True):
         try:
-            w = json.loads(f.read_text(encoding="utf-8"))
+            weeks.append(json.loads(f.read_text(encoding="utf-8")))
         except json.JSONDecodeError:
             continue
-        weeks.append({"week": w["week"], "range": w["range"], "count": w["count"]})
+    return weeks
+
+
+def rebuild_outputs() -> None:
+    """重建 index.json 與 30 天／1 年／2 年的精簡清單。"""
+    weeks = load_weeks()
+    now = dt.datetime.now(TZ).isoformat(timespec="seconds")
     index = {
-        "updated": week["generated"],
+        "updated": now,
         "categories": [{k: c[k] for k in ("id", "name", "zh")} for c in CATEGORIES],
-        "weeks": weeks,
+        "weeks": [{"week": w["week"], "range": w["range"], "count": w["count"]} for w in weeks],
+        "ranges": {},
     }
-    (DATA / "index.json").write_text(
-        json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"Saved {len(articles)} articles → data/weeks/{label}.json")
+    if weeks:
+        latest_end = dt.date.fromisoformat(weeks[0]["range"][1])
+        RANGE_DIR.mkdir(parents=True, exist_ok=True)
+        for key, days in RANGES.items():
+            since = latest_end - dt.timedelta(days=days - 1)
+            seen, rows, first = set(), [], None
+            for w in weeks:
+                if dt.date.fromisoformat(w["range"][1]) < since:
+                    continue
+                first = w["range"][0]
+                for a in w["articles"]:
+                    if a["pmid"] in seen:
+                        continue
+                    seen.add(a["pmid"])
+                    au = a.get("authors") or []
+                    rows.append({
+                        "pmid": a["pmid"], "title": a["title"], "journal": a["journal"],
+                        "date": a["date"], "type": classify(a.get("pub_types", []), a["title"]),
+                        "cats": a["cats"], "doi": a.get("doi", ""), "pmc": a.get("pmc", ""),
+                        "au": au[0] + (" et al." if len(au) > 1 else "") if au else "",
+                        "w": w["week"],
+                    })
+            rows.sort(key=lambda a: (a["date"], a["pmid"]), reverse=True)
+            (RANGE_DIR / f"{key}.json").write_text(json.dumps(
+                {"days": days, "range": [first, latest_end.isoformat()], "count": len(rows),
+                 "articles": rows}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+            index["ranges"][key] = {"range": [first, latest_end.isoformat()], "count": len(rows),
+                                    "complete": first is not None and
+                                    dt.date.fromisoformat(first) <= since + dt.timedelta(days=6)}
+            print(f"  range {key}d: {len(rows)} articles")
+    (DATA / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def main() -> None:
+    today = dt.datetime.now(TZ).date()
+    this_monday = today - dt.timedelta(days=today.weekday())
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--start", help="YYYY/MM/DD（含）")
+    ap.add_argument("--end", help="YYYY/MM/DD（含）")
+    ap.add_argument("--label", help="週次標籤 YYYY-MM-DD（預設：執行當週的週一）")
+    ap.add_argument("--metrics-only", action="store_true", help="只補抓期刊影響係數")
+    ap.add_argument("--backfill", type=int, default=0, metavar="N",
+                    help="補抓過去 N 週（已存在的週次會略過）")
+    ap.add_argument("--rebuild-only", action="store_true", help="只重建 index 與區間清單")
+    args = ap.parse_args()
+
+    if args.metrics_only:
+        backfill_metrics()
+        rebuild_outputs()
+        return
+    if args.rebuild_only:
+        rebuild_outputs()
+        return
+
+    if args.backfill:
+        t0, ok = time.time(), True
+        for k in range(0, args.backfill + 1):
+            monday = this_monday - dt.timedelta(weeks=k)
+            f = WEEKS / f"{monday.isoformat()}.json"
+            want = [(monday - dt.timedelta(days=7)).isoformat(), (monday - dt.timedelta(days=1)).isoformat()]
+            try:
+                if json.loads(f.read_text(encoding="utf-8")).get("range") == want:
+                    continue          # 已存在且區間正確 → 略過
+            except (FileNotFoundError, json.JSONDecodeError):
+                pass
+            try:
+                run_week(monday)
+            except Exception as e:      # 單週失敗不中斷，下次再補
+                print(f"  ! week {monday} failed: {e}", file=sys.stderr)
+                ok = False
+            if time.time() - t0 > 5 * 3600:   # GitHub Actions 單次上限 6 小時
+                print("Time budget reached; remaining weeks next run.")
+                ok = False
+                break
+        if ok:
+            (DATA / "backfill_done.txt").write_text(
+                f"{args.backfill} weeks backfilled at {dt.datetime.now(TZ).isoformat()}\n", encoding="utf-8")
+    else:
+        run_week(this_monday, args.start, args.end, args.label)
+
+    # 本次新文章的期刊指標 + 舊週次缺的期刊
+    backfill_metrics()
+    rebuild_outputs()
 
 
 if __name__ == "__main__":
