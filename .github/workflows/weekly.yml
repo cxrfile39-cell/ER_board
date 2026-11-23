@@ -5,6 +5,8 @@ on:
     # 每週一 05:37（台北時間）= 週日 21:37 UTC
     # 刻意避開整點：GitHub 整點排程最擁擠，常延遲甚至被略過
     - cron: "37 21 * * 0"
+    # 歷史資料補抓未完成時，每 6 小時自動接續（完成後此排程不做任何事）
+    - cron: "11 */6 * * *"
   # 上傳檔案到 main 時自動檢查：缺資料就自動補抓，不需手動執行
   push:
     branches: [main]
@@ -28,7 +30,9 @@ jobs:
         id: check
         run: |
           RUN=true; ARGS=""
-          if [ ! -f data/backfill_done.txt ]; then
+          if [ "${{ github.event.schedule }}" = "11 */6 * * *" ] && [ -f data/backfill_done.txt ]; then
+            RUN=false   # 補抓已完成，6 小時排程不需動作
+          elif [ ! -f data/backfill_done.txt ]; then
             # 第一次：自動補抓過去 2 年（104 週），已存在的週次會略過
             ARGS="--backfill 104"
           elif [ "${{ github.event_name }}" = "push" ]; then
