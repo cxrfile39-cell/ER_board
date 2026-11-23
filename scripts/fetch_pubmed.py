@@ -38,6 +38,9 @@ WEEKS = DATA / "weeks"
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 API_KEY = os.environ.get("NCBI_API_KEY", "").strip()
 EMAIL = os.environ.get("NCBI_EMAIL", "").strip()
+OPENALEX_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
+OPENALEX = "https://api.openalex.org/sources"
+METRICS = DATA / "journal_metrics.json"
 TOOL = "em-weekly"
 DELAY = 0.12 if API_KEY else 0.4  # NCBI: 10 req/s with key, 3 req/s without
 TZ = dt.timezone(dt.timedelta(hours=8))  # Asia/Taipei
@@ -397,6 +400,8 @@ def parse(article: ET.Element) -> dict | None:
         "type": classify(pub_types, title),
         "doi": doi,
         "pmc": ids.get("pmc", ""),
+        "issn": mc.findtext("MedlineJournalInfo/ISSNLinking")
+                or (journal.findtext("ISSN") if journal is not None else "") or "",
         "cats": [],
     }
 
@@ -404,13 +409,92 @@ def parse(article: ET.Element) -> dict | None:
 # --------------------------------------------------------------------------
 # 主程式
 # --------------------------------------------------------------------------
+def update_journal_metrics(articles: list[dict]) -> None:
+    """
+    以 OpenAlex「2-year mean citedness」作為影響係數 (IF) 近似值，
+    依期刊縮寫存入 data/journal_metrics.json（累積保存，供所有週次使用）。
+    """
+    try:
+        metrics = json.loads(METRICS.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        metrics = {}
+    journals: dict[str, set[str]] = {}
+    for a in articles:
+        if a.get("issn") and a.get("journal"):
+            journals.setdefault(a["journal"], set()).add(a["issn"])
+    issn_to_j = {i: j for j, iss in journals.items() for i in iss}
+    issns = list(issn_to_j)
+    if not issns:
+        return
+    print(f"Fetching OpenAlex metrics for {len(journals)} journals…")
+    found = 0
+    for i in range(0, len(issns), 50):
+        params = {"filter": "issn:" + "|".join(issns[i:i + 50]), "per-page": 200}
+        if OPENALEX_KEY:
+            params["api_key"] = OPENALEX_KEY
+        if EMAIL:
+            params["mailto"] = EMAIL
+        url = OPENALEX + "?" + urllib.parse.urlencode(params)
+        try:
+            time.sleep(0.2)
+            req = urllib.request.Request(url, headers={"User-Agent": TOOL})
+            with urllib.request.urlopen(req, timeout=60) as r:
+                results = json.loads(r.read()).get("results", [])
+        except Exception as e:  # 失敗不影響主流程，保留舊值
+            print(f"  ! OpenAlex failed ({e}); keeping cached metrics", file=sys.stderr)
+            continue
+        for src in results:
+            v = (src.get("summary_stats") or {}).get("2yr_mean_citedness")
+            if v is None:
+                continue
+            for issn in [src.get("issn_l")] + (src.get("issn") or []):
+                j = issn_to_j.get(issn or "")
+                if j:
+                    metrics[j] = {
+                        "if": round(float(v), 2),
+                        "h": (src.get("summary_stats") or {}).get("h_index"),
+                        "issn": issn,
+                        "updated": dt.datetime.now(TZ).date().isoformat(),
+                    }
+                    found += 1
+                    break
+    METRICS.write_text(json.dumps(dict(sorted(metrics.items())), ensure_ascii=False, indent=1),
+                       encoding="utf-8")
+    print(f"  metrics updated for {found} journals (total {len(metrics)})")
+
+
+def backfill_metrics() -> None:
+    """舊週次資料沒有 ISSN：每個缺少指標的期刊挑一篇 PMID 重新查 ISSN，再補抓指標。"""
+    try:
+        have = set(json.loads(METRICS.read_text(encoding="utf-8")))
+    except (FileNotFoundError, json.JSONDecodeError):
+        have = set()
+    sample: dict[str, str] = {}
+    for f in WEEKS.glob("*.json"):
+        try:
+            for a in json.loads(f.read_text(encoding="utf-8")).get("articles", []):
+                if a.get("journal") and a["journal"] not in have:
+                    sample.setdefault(a["journal"], a["pmid"])
+        except json.JSONDecodeError:
+            continue
+    if not sample:
+        return
+    print(f"Backfilling ISSN for {len(sample)} journals from earlier weeks…")
+    recs = [r for r in (parse(el) for el in efetch(list(sample.values()))) if r]
+    update_journal_metrics(recs)
+
+
 def main() -> None:
     today = dt.datetime.now(TZ).date()
     ap = argparse.ArgumentParser()
     ap.add_argument("--start", help="YYYY/MM/DD（含）")
     ap.add_argument("--end", help="YYYY/MM/DD（含）")
     ap.add_argument("--label", help="週次標籤 YYYY-MM-DD（預設：執行當週的週一）")
+    ap.add_argument("--metrics-only", action="store_true", help="只補抓期刊影響係數")
     args = ap.parse_args()
+    if args.metrics_only:
+        backfill_metrics()
+        return
 
     monday = today - dt.timedelta(days=today.weekday())
     start = args.start or (today - dt.timedelta(days=7)).strftime("%Y/%m/%d")
@@ -436,6 +520,9 @@ def main() -> None:
             rec["cats"] = sorted(hits[rec["pmid"]], key=order.index)
             articles.append(rec)
     articles.sort(key=lambda a: (a["date"], a["pmid"]), reverse=True)
+
+    update_journal_metrics(articles)
+    backfill_metrics()
 
     WEEKS.mkdir(parents=True, exist_ok=True)
     week = {
