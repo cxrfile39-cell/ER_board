@@ -23,6 +23,7 @@ import datetime as dt
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 import urllib.error
@@ -586,6 +587,23 @@ def rebuild_outputs() -> None:
     (DATA / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+def checkpoint(msg: str) -> None:
+    """補抓途中分批發布：重建清單並 commit/push（僅在 GitHub Actions 設定 GIT_CHECKPOINT=1 時）。"""
+    rebuild_outputs()
+    if os.environ.get("GIT_CHECKPOINT") != "1":
+        return
+    try:
+        subprocess.run(["git", "add", "data"], check=True)
+        if subprocess.run(["git", "diff", "--staged", "--quiet"]).returncode == 0:
+            return
+        subprocess.run(["git", "commit", "-q", "-m", msg], check=True)
+        subprocess.run(["git", "pull", "-q", "--rebase", "--autostash"], check=True)
+        subprocess.run(["git", "push", "-q"], check=True)
+        print(f"  ✓ checkpoint pushed: {msg}")
+    except subprocess.CalledProcessError as e:
+        print(f"  ! checkpoint push failed ({e}); will retry later", file=sys.stderr)
+
+
 def main() -> None:
     today = dt.datetime.now(TZ).date()
     this_monday = today - dt.timedelta(days=today.weekday())
@@ -608,7 +626,7 @@ def main() -> None:
         return
 
     if args.backfill:
-        t0, ok = time.time(), True
+        t0, ok, done = time.time(), True, 0
         for k in range(0, args.backfill + 1):
             monday = this_monday - dt.timedelta(weeks=k)
             f = WEEKS / f"{monday.isoformat()}.json"
@@ -620,6 +638,9 @@ def main() -> None:
                 pass
             try:
                 run_week(monday)
+                done += 1
+                if done in (1, 5) or done % 13 == 0:      # 先讓 7 天／30 天盡快可用，之後每 13 週發布一次
+                    checkpoint(f"Backfill progress: back to {monday.isoformat()}")
             except Exception as e:      # 單週失敗不中斷，下次再補
                 print(f"  ! week {monday} failed: {e}", file=sys.stderr)
                 ok = False
