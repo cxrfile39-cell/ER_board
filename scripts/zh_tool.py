@@ -4,7 +4,7 @@
 
   python scripts/zh_tool.py status                 # 各週中文完成度
   python scripts/zh_tool.py export [週] [--n 60] [--all]
-        # 輸出尚未翻譯的文章（JSON Lines）；預設只含指引、統合分析、綜論，--all 為全部類型
+        # 輸出尚未翻譯的文章（JSON Lines）；預設只含指引與統合分析，--all 為全部類型
   python scripts/zh_tool.py merge 檔案.json [週]   # 合併翻譯結果到 data/zh/<週>.json
 
 merge 的輸入格式：{"<pmid>": {"t": "中文標題", "s": "一句中文重點"}, ...}
@@ -44,7 +44,7 @@ def key_text(a: dict, limit: int = 700) -> str:
     return txt[:limit]
 
 
-TARGET_TYPES = {"guideline", "meta", "review"}   # 撰寫規則：只寫指引、統合分析、綜論（原著不寫）
+TARGET_TYPES = {"guideline", "meta"}   # 撰寫規則：只寫指引（共識）與統合分析（系統性回顧），綜論與原著不寫
 
 
 def targets(w: str, all_types: bool = False) -> list[dict]:
@@ -62,7 +62,7 @@ def cmd_status() -> None:
     for w in sorted((p.stem for p in WEEKS.glob("*.json")), reverse=True)[:8]:
         t = {a["pmid"] for a in targets(w)}
         z = load_zh(w)
-        print(f"{w}: 指引/統合分析/綜論 {len(t & z.keys())}/{len(t)} 已有中文")
+        print(f"{w}: 指引/統合分析 {len(t & z.keys())}/{len(t)} 已有中文")
 
 
 def cmd_export(args: list[str]) -> None:
