@@ -548,12 +548,30 @@ def load_weeks() -> list[dict]:
     return weeks
 
 
+ZH_DIR = DATA / "zh"
+
+
+def load_zh() -> dict[str, dict]:
+    """data/zh/<週>.json → {週: {pmid: {"t": 中文標題, "s": 中文重點}}}"""
+    out = {}
+    for f in ZH_DIR.glob("*.json"):
+        try:
+            out[f.stem] = json.loads(f.read_text(encoding="utf-8")).get("items", {})
+        except json.JSONDecodeError:
+            continue
+    return out
+
+
 def rebuild_outputs() -> None:
     """重建 index.json 與 30 天／1 年／2 年的精簡清單。"""
     weeks = load_weeks()
-    now = dt.datetime.now(TZ).isoformat(timespec="seconds")
+    # 「上次更新」= 最近一次抓取 PubMed 的時間（加中文敘述不改變它）
+    now = max((w.get("generated", "") for w in weeks), default="") or \
+        dt.datetime.now(TZ).isoformat(timespec="seconds")
+    zh_all = load_zh()
     index = {
         "updated": now,
+        "zh_weeks": sorted((k for k, v in zh_all.items() if v), reverse=True),
         "categories": [{k: c[k] for k in ("id", "name", "zh")} for c in CATEGORIES],
         "weeks": [{"week": w["week"], "range": w["range"], "count": w["count"]} for w in weeks],
         "ranges": {},
@@ -579,6 +597,8 @@ def rebuild_outputs() -> None:
                         "cats": a["cats"], "doi": a.get("doi", ""), "pmc": a.get("pmc", ""),
                         "au": au[0] + (" et al." if len(au) > 1 else "") if au else "",
                         "w": w["week"],
+                        **({"zt": z.get("t", ""), "zs": z.get("s", "")}
+                           if (z := zh_all.get(w["week"], {}).get(a["pmid"])) else {}),
                     })
             rows.sort(key=lambda a: (a["date"], a["pmid"]), reverse=True)
             (RANGE_DIR / f"{key}.json").write_text(json.dumps(

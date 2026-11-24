@@ -1,5 +1,7 @@
 # EM Weekly｜急診醫學每週文獻
 
+製作者：JH CHIU MD · Claude 5.5
+
 每週一自動從 PubMed 抓取前一週新收錄的急診醫學 **Journal Article / Review / Guideline**，依 12 個次專科分類，發布在 GitHub Pages。
 
 次專科：General EM、Emergency Critical Care、Pediatric EM、EMS、Medical Toxicology、Emergency Ultrasound、Disaster Medicine、Hyperbaric & Undersea Medicine、Sports Medicine、Geriatric EM、Emergency Neurology、Emergency Trauma Medicine。
@@ -17,9 +19,19 @@
 3. 約 1 分鐘後網址生效：`https://<你的帳號>.github.io/<repo 名稱>/`
 4. （建議）**Settings → Secrets and variables → Actions** 新增 `NCBI_API_KEY`（NCBI 帳號免費申請）與 `NCBI_EMAIL`，抓取更穩定。
 
-之後每週一 06:00（台北時間）自動更新並重新發布。GitHub 排程偶爾延遲數十分鐘屬正常。
+之後每週一 05:37（台北時間）自動更新並重新發布。GitHub 排程偶爾延遲數十分鐘屬正常。
 
 > 若第一次自動執行顯示 push 權限錯誤：到 **Settings → Actions → General → Workflow permissions** 改為 **Read and write permissions**，再到 Actions 分頁按 **Re-run**。
+
+## 時間範圍
+- 網頁可切換 7 天／30 天／1 年／2 年，或指定週次。
+- 第一次更新到新版時，GitHub 會自動補抓過去 104 週（約 20–60 分鐘），完成後產生 `data/backfill_done.txt`；中途失敗會保留進度，下次自動接續。
+- 30 天／1 年／2 年清單存在 `data/range/`，不含摘要（點開時才載入）以減少手機載入量。
+
+## 期刊影響係數（IF）
+- 自動：OpenAlex「2-year mean citedness」（近似 IF，非官方 JIF），存在 `data/journal_metrics.json`。
+  建議到 openalex.org/settings/api 免費申請 API key，加入 Secrets：`OPENALEX_API_KEY`。
+- 手動：在 `data/jif.json` 填入官方 JIF（例如 `"Ann Emerg Med": 5.0`），網頁會優先顯示。
 
 ## 調整
 - **分類關鍵字／期刊**：編輯 `scripts/fetch_pubmed.py` 的 `CATEGORIES`。

@@ -72,6 +72,10 @@ select,input[type=search]{width:100%;padding:8px;border:1px solid var(--line);bo
 .card h3 a{color:var(--ink);text-decoration:none}
 .card h3 a:hover{color:var(--accent);text-decoration:underline}
 .meta{color:var(--muted);font-size:.84rem}
+.zh-t{font-size:.95rem;font-weight:600;color:var(--ink);margin:0 0 4px}
+.zh-s{font-size:.86rem;color:var(--ink);background:var(--chip);border-radius:6px;padding:6px 10px;margin:6px 0 2px;line-height:1.55}
+.zh-toggle{display:flex;align-items:center;gap:6px;font-size:.88rem;white-space:nowrap;cursor:pointer}
+.zh-toggle input{accent-color:var(--accent)}
 .meta b{color:var(--ink);font-weight:600}
 .if{display:inline-block;margin-left:6px;padding:0 6px;border-radius:4px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.74rem;font-weight:700;vertical-align:1px;border:1px solid var(--line);color:var(--muted);cursor:help}
 .if.hi{background:#fff3e0;color:#e65100;border-color:#ffcc80}.if.top{background:#ffebee;color:#c62828;border-color:#ef9a9a}
@@ -198,6 +202,7 @@ footer a{color:var(--muted)}
   <main>
     <div class="toolbar">
       <input type="search" id="q" placeholder="搜尋標題、摘要、期刊、作者…">
+      <label class="zh-toggle"><input type="checkbox" id="zh" checked> 中文</label>
       <select id="sort">
         <option value="date">日期（新→舊）</option>
         <option value="if">影響係數 IF（高→低）</option>
@@ -272,7 +277,13 @@ footer a{color:var(--muted)}
       <li>顏色：≥10 紅色、≥4 橘色。排序可選「影響係數 IF（高→低）」，在各區塊內依 IF 排序。</li>
     </ul>
 
-    <h3>5. 限制</h3>
+    <h3>5. 中文敘述</h3>
+    <ul>
+      <li>每週更新後，由 Claude（AI）依標題與摘要的結果／結論段落，自動撰寫中文標題與一句重點。</li>
+      <li>中文為 AI 生成的輔助閱讀內容，可能有誤譯或遺漏細節，請以英文原文為準。可用右上角「中文」開關隱藏。</li>
+    </ul>
+
+    <h3>6. 限制</h3>
     <ul>
       <li>分類為關鍵字自動判定，可能有少數誤分或遺漏（例如標題未明示類型的綜論、或僅順帶提到急診的文章）。</li>
       <li>PubMed 收錄時間可能晚於期刊線上刊出時間數天。</li>
@@ -333,7 +344,7 @@ function checked(group){
 
 function persist(){
   try {
-    localStorage.setItem(STORE, JSON.stringify({type:checked("type"), cat:checked("cat"), sort:$("#sort").value}));
+    localStorage.setItem(STORE, JSON.stringify({type:checked("type"), cat:checked("cat"), sort:$("#sort").value, zh:$("#zh").checked}));
   } catch(e) {}
 }
 
@@ -376,6 +387,8 @@ async function getWeek(w){
   return state.weekCache[w];
 }
 
+const showZh = () => $("#zh").checked;
+
 function cardHTML(a, terms, catName){
   const t = TYPES.find(t => t.id === a.type);
   const authors = a.authors || (a.au ? [a.au] : []);
@@ -386,7 +399,9 @@ function cardHTML(a, terms, catName){
   return `<article class="card ${a.type}">
     <span class="badge ${a.type}">${t.short}</span>
     <h3><a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">${highlight(a.title, terms)}</a></h3>
+    ${showZh() && a.zt ? `<div class="zh-t">${highlight(a.zt, terms)}</div>` : ""}
     <div class="meta"><b>${esc(a.journal)}</b>${ifHTML(a.journal)} · ${esc(a.date)}${au ? " · " + esc(au) : ""}</div>
+    ${showZh() && a.zs ? `<div class="zh-s">💬 ${highlight(a.zs, terms)}</div>` : ""}
     <div class="chips">${a.cats.map(c => `<span class="chip">${ICON[c] || ""} ${esc(catName[c] || c)}</span>`).join("")}</div>
     <div class="links">
       <a href="https://pubmed.ncbi.nlm.nih.gov/${a.pmid}/" target="_blank" rel="noopener">PubMed</a>
@@ -408,7 +423,7 @@ function render(){
   let rows = arts.filter(a => types.has(a.type) && a.cats.some(c => cats.has(c)));
   if (terms.length){
     rows = rows.filter(a => {
-      const hay = [a.title, a.journal, a.journal_full, a.authors.join(" "),
+      const hay = [a.title, a.zt || "", a.zs || "", a.journal, a.journal_full, a.authors.join(" "),
                    (a.abstract || []).map(p => p.text).join(" ")].join(" ").toLowerCase();
       return terms.every(t => hay.includes(t));
     });
@@ -466,7 +481,16 @@ function setData(d){
 async function loadWeek(week){
   state.mode = "week"; syncControls(week);
   $("#status").textContent = "載入中…";
-  try { setData(await getWeek(week)); }
+  try {
+    const d = await getWeek(week);
+    if (state.index?.zh_weeks?.includes(week)){
+      try {
+        const z = (await (await fetch(`data/zh/${week}.json`, {cache:"no-cache"})).json()).items || {};
+        d.articles.forEach(a => { const v = z[a.pmid]; if (v){ a.zt = v.t; a.zs = v.s; } });
+      } catch(e) {}
+    }
+    setData(d);
+  }
   catch(e){ state.weekData = null; $("#list").innerHTML = `<div class="empty">無法載入 ${esc(week)} 的資料</div>`; return; }
   render();
 }
@@ -566,6 +590,7 @@ async function init(){
   buildOptions($("#types"), TYPES, "type");
   buildOptions($("#cats"), state.cats, "cat");
   if (saved.sort) $("#sort").value = saved.sort;
+  if (saved.zh === false) $("#zh").checked = false;
   showUpdateTimes(index?.updated);
 
   if (!index || !index.weeks?.length){
@@ -607,6 +632,7 @@ document.addEventListener("toggle", async e => {
   } catch(err){ d.querySelector(".abs").textContent = "摘要載入失敗"; delete d.dataset.loaded; }
 }, true);
 $("#sort").addEventListener("change", () => render());
+$("#zh").addEventListener("change", () => render(false));
 let qTimer; $("#q").addEventListener("input", () => { clearTimeout(qTimer); qTimer = setTimeout(render, 200); });
 $("#list").addEventListener("click", e => {
   const m = e.target.closest("[data-more]");
