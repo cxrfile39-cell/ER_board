@@ -160,7 +160,7 @@ footer a{color:var(--muted)}
       <h1><span class="em">EM</span> Weekly｜急診醫學每週文獻</h1></div>
     <p id="sub">🚑 每週一自動更新 · 來源：PubMed</p>
     <p class="updated">🕒 上次更新：<b id="updated">—</b><span class="sep">　｜　</span><span class="nx">⏭ 下次更新：<span id="next">—</span></span></p>
-    <span class="views" id="views" hidden>👁 總瀏覽 <b id="vercount_value_site_pv">…</b> 次 · 訪客 <b id="vercount_value_site_uv">…</b> 人</span>
+    <span class="views" id="views" hidden>👁 瀏覽人次 <b id="viewCount">…</b></span>
     <p class="credit">製作者：JH CHIU MD · Claude 5.5</p>
   </div>
   <svg class="ecg" id="ecg" viewBox="0 0 1200 56" preserveAspectRatio="none" aria-hidden="true"></svg>
@@ -294,7 +294,7 @@ footer a{color:var(--muted)}
   資料來源：<a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">PubMed / NCBI</a>。
   分類由關鍵字自動判定，僅供文獻追蹤參考。<br>
   製作者：<b>JH CHIU MD</b> · Claude 5.5<br>
-  瀏覽人次統計：<a href="https://vercount.one/" target="_blank" rel="noopener">Vercount</a>
+  瀏覽人次統計：<a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a>
 </footer>
 
 <script>
@@ -650,16 +650,20 @@ if (matchMedia("(max-width:860px)").matches){ $("#aside").classList.add("collaps
 
 init();
 </script>
-<!-- 瀏覽人次：Vercount（免費、免註冊）；服務無回應時自動隱藏 -->
+<!-- 瀏覽人次：GoatCounter（cxrfile2.goatcounter.com） -->
+<script data-goatcounter="https://cxrfile2.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
 <script>
+// 顯示全站累計人次（需在 GoatCounter 設定開啟「Allow adding visitor counts on your website」）；失敗時自動隱藏
 (function(){
-  const box = document.getElementById("views");
-  const pv = document.getElementById("vercount_value_site_pv");
-  const show = () => { if (/\d/.test(pv.textContent)) box.hidden = false; };
-  new MutationObserver(show).observe(pv, {childList:true, characterData:true, subtree:true});
-  const s = document.createElement("script");
-  s.defer = true; s.src = "https://events.vercount.one/js";
-  document.body.appendChild(s);
+  fetch("https://cxrfile2.goatcounter.com/counter/TOTAL.json")
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => {
+      if (d && d.count != null){
+        document.getElementById("viewCount").textContent = String(d.count).trim();
+        document.getElementById("views").hidden = false;
+      }
+    }).catch(() => {});
 })();
 </script>
 </body>
