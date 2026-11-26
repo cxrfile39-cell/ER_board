@@ -31,6 +31,10 @@ header p{margin:4px 0 0;color:#9fb8ad;font-size:.88rem}
 header .credit{font-size:.78rem;color:#7d958b}
 header .updated{display:inline-block;margin-top:8px;padding:4px 10px;border-radius:6px;background:rgba(51,255,136,.08);border:1px solid rgba(51,255,136,.35);color:#cfffe3;font-size:.84rem;font-family:ui-monospace,Menlo,Consolas,"Noto Sans TC",monospace}
 header .updated b{color:var(--mon-green)}
+header .views{display:inline-block;margin:8px 0 0 8px;padding:4px 10px;border-radius:6px;background:rgba(77,208,225,.08);border:1px solid rgba(77,208,225,.35);color:#d4f6fa;font-size:.84rem;font-family:ui-monospace,Menlo,Consolas,"Noto Sans TC",monospace}
+header .views b{color:var(--mon-cyan)}
+header .views[hidden]{display:none}
+@media (max-width:520px){header .views{margin-left:0}}
 .ecg{display:block;width:100%;height:56px;position:relative;z-index:1}
 .ecg path{fill:none;stroke:var(--mon-green);stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 0 3px rgba(51,255,136,.8))}
 .ecg .grid{stroke:rgba(51,255,136,.08);stroke-width:1;filter:none}
@@ -156,6 +160,7 @@ footer a{color:var(--muted)}
       <h1><span class="em">EM</span> Weekly｜急診醫學每週文獻</h1></div>
     <p id="sub">🚑 每週一自動更新 · 來源：PubMed</p>
     <p class="updated">🕒 上次更新：<b id="updated">—</b><span class="sep">　｜　</span><span class="nx">⏭ 下次更新：<span id="next">—</span></span></p>
+    <span class="views" id="views" hidden>👁 總瀏覽 <b id="vercount_value_site_pv">…</b> 次 · 訪客 <b id="vercount_value_site_uv">…</b> 人</span>
     <p class="credit">製作者：JH CHIU MD · Claude 5.5</p>
   </div>
   <svg class="ecg" id="ecg" viewBox="0 0 1200 56" preserveAspectRatio="none" aria-hidden="true"></svg>
@@ -288,7 +293,8 @@ footer a{color:var(--muted)}
 <footer>
   資料來源：<a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">PubMed / NCBI</a>。
   分類由關鍵字自動判定，僅供文獻追蹤參考。<br>
-  製作者：<b>JH CHIU MD</b> · Claude 5.5
+  製作者：<b>JH CHIU MD</b> · Claude 5.5<br>
+  瀏覽人次統計：<a href="https://vercount.one/" target="_blank" rel="noopener">Vercount</a>
 </footer>
 
 <script>
@@ -643,6 +649,18 @@ $("#toggleFilters").addEventListener("click", () => {
 if (matchMedia("(max-width:860px)").matches){ $("#aside").classList.add("collapsed"); $("#toggleFilters").textContent = "篩選條件 ▸"; }
 
 init();
+</script>
+<!-- 瀏覽人次：Vercount（免費、免註冊）；服務無回應時自動隱藏 -->
+<script>
+(function(){
+  const box = document.getElementById("views");
+  const pv = document.getElementById("vercount_value_site_pv");
+  const show = () => { if (/\d/.test(pv.textContent)) box.hidden = false; };
+  new MutationObserver(show).observe(pv, {childList:true, characterData:true, subtree:true});
+  const s = document.createElement("script");
+  s.defer = true; s.src = "https://events.vercount.one/js";
+  document.body.appendChild(s);
+})();
 </script>
 </body>
 </html>
